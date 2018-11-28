@@ -1,5 +1,8 @@
 package ch.epfl.cs107.play.game.areagame;
 
+import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Image;
 import ch.epfl.cs107.play.window.Window;
 
 /**
@@ -7,9 +10,12 @@ import ch.epfl.cs107.play.window.Window;
  */
 public abstract class AreaBehavior
 {
-
     /// The behavior is an Image of size height x width
-    // TODO implements me #PROJECT #TUTO
+    private final Image behaviorMap;
+    private final int width, height;
+
+    /// We will convert the image into an array of cells
+    private final Cell[][] cells ;
 
     /**
      * Default AreaBehavior Constructor
@@ -17,9 +23,29 @@ public abstract class AreaBehavior
      * @param fileName (String): name of the file containing the behavior image, not null
      */
     public AreaBehavior(Window window, String fileName){
-        // TODO implements me #PROJECT #TUTO
+        behaviorMap = window.getImage(ResourcePath.getBehaviors(fileName), null, false);
+        width = behaviorMap.getWidth();
+        height = behaviorMap.getHeight();
+        cells = new Cell[width][height]; // TODO: width lignes et height colonnes ? Inverse
     }
 
-    // TODO implements me #PROJECT #TUTO
+    public int getWidth() {
+        return width;
+    }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public Image getBehaviorMap() {
+        return behaviorMap;
+    }
+
+    public abstract class Cell {
+        private DiscreteCoordinates coordinates;
+
+        public Cell(int x, int y) {
+            this.coordinates = new DiscreteCoordinates(x, y);
+        }
+    }
 }
