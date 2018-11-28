@@ -31,6 +31,7 @@ public class Demo1 implements Game {
 				new ShapeGraphics(new Circle(radius), null,
 				Color.RED, 0.005f));
 	    movingRock=new MovingRock(new Vector(0f,0.1f),"Hello I'm movingRock");
+	   
 		return true;
 	}
 
