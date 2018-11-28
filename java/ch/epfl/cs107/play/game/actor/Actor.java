@@ -13,8 +13,8 @@ import ch.epfl.cs107.play.window.Audio;
  * Smaller components and helpers are usually owned by actors themselves.
  */
 public interface Actor extends Updatable, Graphics, Acoustics, Positionable {
-    
-    @Override
+
+	@Override
     default void update(float deltaTime) {
         // By default, actors have nothing to update
     }
