@@ -126,7 +126,9 @@ public abstract class Area implements Playable {
 
     @Override
     public void update(float deltaTime) {
-        ( (Actor) actors).draw(window);
+      for(Actor actor : actors) {
+    	  actor.update(deltaTime);
+      }
     }
 
 
