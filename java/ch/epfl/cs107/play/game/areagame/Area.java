@@ -2,6 +2,7 @@ package ch.epfl.cs107.play.game.areagame;
 
 import ch.epfl.cs107.play.game.Playable;
 import ch.epfl.cs107.play.game.actor.Actor;
+import ch.epfl.cs107.play.game.actor.Graphics;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -9,6 +10,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -18,7 +20,13 @@ import java.util.List;
 public abstract class Area implements Playable {
 
     // Context objects
+	private Window window;
+	private FileSystem fileSystem;
+	
     // TODO implements me #PROJECT #TUTO
+	private List<Actor> actors;
+	private List<Actor> registeredActors;
+	private List<Actor> unregisteredActors;
 
 	/** @return (float): camera scale factor, assume it is the same in x and y direction */
     public abstract float getCameraScaleFactor();
@@ -29,7 +37,13 @@ public abstract class Area implements Playable {
      * @param forced (Boolean): if true, the method ends
      */
     private void addActor(Actor a, boolean forced) {
-        // TODO implements me #PROJECT #TUTO
+       //Here decisions on the area to decide if an actor is added or not 
+    	boolean errorOccured = !actors.add(a);
+    	
+    	if(errorOccured && !forced) {
+    		System.out.println("Actor"+a+"cannot be completely added so remove it from where it was ");
+    		removeActor(a,true);
+    	}
     }
 
     /**
@@ -38,7 +52,12 @@ public abstract class Area implements Playable {
      * @param forced (Boolean): if true, the method ends
      */
     private void removeActor(Actor a, boolean forced){
-        // TODO implements me #PROJECT #TUTO
+    boolean errorOccured = !actors.remove(a);
+    	
+    	if(errorOccured && !forced) {
+    		System.out.println("Actor"+a+"cannot be completely removed so add it from where it was ");
+    		addActor(a,true);
+    	}
     }
 
     /**
@@ -47,7 +66,7 @@ public abstract class Area implements Playable {
      * @return (boolean): true if the actor is correctly registered
      */
     public final boolean registerActor(Actor a){
-        // TODO implements me #PROJECT #TUTO
+        registeredActors.add(a);
         return false;
     }
 
@@ -57,7 +76,7 @@ public abstract class Area implements Playable {
      * @return (boolean): true if the actor is correctly unregistered
      */
     public final boolean unregisterActor(Actor a){
-        // TODO implements me #PROJECT #TUTO
+        unregisteredActors.add(a);
         return false;
     }
 
@@ -89,7 +108,9 @@ public abstract class Area implements Playable {
 
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
-        // TODO implements me #PROJECT #TUTO
+        this.window=window;
+        this.fileSystem=fileSystem;
+        actors=new LinkedList<>();
         return true;
     }
 
@@ -105,12 +126,12 @@ public abstract class Area implements Playable {
 
     @Override
     public void update(float deltaTime) {
-        // TODO implements me #PROJECT #TUTO
+        ( (Actor) actors).draw(window);
     }
 
 
     private void updateCamera () {
-        // TODO implements me #PROJECT #TUTO
+        
     }
 
     /**

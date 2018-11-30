@@ -13,6 +13,11 @@ import ch.epfl.cs107.play.window.Canvas;
 public class MovingRock extends GraphicsEntity {
 	private final TextGraphics text;
 	private final TextGraphics collisionText;
+    private boolean collision;
+
+	public void setCollision(boolean collision) {
+		this.collision = collision;
+	}
 
 	public MovingRock(Vector position, String text) {
 		super(position, new ImageGraphics(ResourcePath.getSprite("rock.3"), 0.1f, 0.1f, null, Vector.ZERO, 1.0f,
@@ -21,7 +26,7 @@ public class MovingRock extends GraphicsEntity {
 		this.text.setParent(this);
 		this.text.setAnchor(new Vector(-0.3f, 0.1f));
 		
-		collisionText = new TextGraphics("BOUM!!!", 0.04f, Color.BLUE);
+		collisionText = new TextGraphics("BOUM!!!", 0.04f, Color.RED);
 		collisionText.setParent(this);
 		collisionText.setAnchor(new Vector(-0.3f, 0.1f));
 	}
@@ -31,6 +36,10 @@ public class MovingRock extends GraphicsEntity {
 		// TODO Auto-generated method stub
 		super.draw(canvas);
 		text.draw(canvas);
+		if(collision) {
+			collisionText.draw(canvas);
+	    }
+		
 	}
 
 	@Override

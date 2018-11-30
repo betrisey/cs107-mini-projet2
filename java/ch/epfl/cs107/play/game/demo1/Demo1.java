@@ -64,9 +64,10 @@ public class Demo1 implements Game {
         float deltaPosition=((movingRock.getPosition().sub(actor1.getPosition())).getLength());
         if(deltaPosition<radius) {
             System.out.println("Boom");
-        
-        	
-        }
+            movingRock.setCollision(true);
+          }else {
+        	  movingRock.setCollision(false);
+          }
         	
         //text.setParent(movingRock);		
 	}     
