@@ -13,7 +13,7 @@ public class Demo2Behavior extends AreaBehavior {
     public Demo2Behavior(Window window, String fileName) {
         super(window, fileName);
 
-        Demo2Cell[][] cells = new Demo2Cell[getWidth()][getHeight()];
+        Cell[][] cells = getCells();
         for (int y = 0; y < getWidth(); y++) {
             for (int x = 0; x < getHeight(); x++) {
                 Demo2CellType cellType = Demo2CellType.toType(getBehaviorMap().getRGB(getHeight()-1-y, x));
@@ -36,11 +36,11 @@ public class Demo2Behavior extends AreaBehavior {
         }
 
         public static Demo2CellType toType(int type) {
-            if (type == WALL.type) return WALL;
-            if (type == DOOR.type) return DOOR;
-            if (type == WATER.type) return WATER;
-            if (type == INDOOR_WALKABLE.type) return INDOOR_WALKABLE;
-            if (type == OUTDOOR_WALKABLE.type) return OUTDOOR_WALKABLE;
+            for (Demo2CellType cellType : values()) {
+                if (type == cellType.type) {
+                    return cellType;
+                }
+            }
             return NULL;
         }
     }
@@ -48,7 +48,7 @@ public class Demo2Behavior extends AreaBehavior {
     public class Demo2Cell extends Cell {
         private Demo2CellType type;
 
-        public Demo2Cell(int x, int y, Demo2CellType type) {
+        private Demo2Cell(int x, int y, Demo2CellType type) {
             super(x, y);
             this.type = type;
         }

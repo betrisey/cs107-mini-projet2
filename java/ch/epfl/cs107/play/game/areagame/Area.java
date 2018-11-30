@@ -192,11 +192,27 @@ public abstract class Area implements Playable {
         this.viewCandidate = a;
     }
 
-    protected final void setAreaBehavior(AreaBehavior ab) {
+    protected final void setBehavior(AreaBehavior ab) {
         this.areaBehavior = ab;
     }
 
     public boolean hasBegun() {
         return hasBegun;
+    }
+
+    public final boolean leaveAreaCells(Interactable entity, List<DiscreteCoordinates> coordinates) {
+        if (areaBehavior.canLeave(entity, coordinates)) {
+            areaBehavior.leave(entity, coordinates);
+            return true;
+        }
+        return false;
+    }
+
+    public final boolean enterAreaCells(Interactable entity, List<DiscreteCoordinates> coordinates) {
+        if (areaBehavior.canEnter(entity, coordinates)) {
+            areaBehavior.enter(entity, coordinates);
+            return true;
+        }
+        return false;
     }
 }
