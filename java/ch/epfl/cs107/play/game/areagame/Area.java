@@ -9,17 +9,17 @@ import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
-import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
  * Area is a "Part" of the AreaGame. It is characterized by its AreaBehavior and a List of Actors
  */
 public abstract class Area implements Playable {
-    // TODO implements me #PROJECT #TUTO
     // Context objects
     private Window window;
     private FileSystem fileSystem;
@@ -30,6 +30,9 @@ public abstract class Area implements Playable {
 
     private List<Actor> registeredActors;
     private List<Actor> unregisteredActors;
+
+    private Map<Interactable, List<DiscreteCoordinates>> interactablesToEnter;
+    private Map<Interactable, List<DiscreteCoordinates>> interactablesToLeave;
 
     // Camera Parameter
     // actor on which the view is centered
@@ -51,7 +54,9 @@ public abstract class Area implements Playable {
         // TODO implements me #PROJECT #TUTO, page 17
         // Here decisions at the area level to decide if an actor
         // must be added or not
-        boolean errorOccured = !actors.add(a) ;
+        boolean errorOccured = !actors.add(a);
+        if(a instanceof Interactable)
+            errorOccured = errorOccured || !enterAreaCells(((Interactable) a), ((Interactable) a).getCurrentCells());
         if(errorOccured && !forced) {
             System.out.println("Actor " + a + " cannot be completely added, so remove it from where it was");
             removeActor(a, true);
@@ -64,8 +69,9 @@ public abstract class Area implements Playable {
      * @param forced (Boolean): if true, the method ends
      */
     private void removeActor(Actor a, boolean forced){
-        // TODO implements me #PROJECT #TUTO
         boolean errorOccured = !actors.remove(a) ;
+        if(a instanceof Interactable)
+            errorOccured = errorOccured || !leaveAreaCells(((Interactable) a), ((Interactable) a).getCurrentCells());
         if(errorOccured && !forced) {
             System.out.println("Actor " + a + " cannot be completely removed, so add it where it was");
             addActor(a, true); // TODO : check if we should add it back
@@ -108,7 +114,6 @@ public abstract class Area implements Playable {
 
     /** @return the Window Keyboard for inputs */
     public final Keyboard getKeyboard () {
-        // TODO implements me #PROJECT #TUTO
         return window.getKeyboard();
     }
 
@@ -122,6 +127,9 @@ public abstract class Area implements Playable {
 
         registeredActors = new LinkedList<>();
         unregisteredActors = new LinkedList<>();
+
+        interactablesToEnter = new HashMap<>();
+        interactablesToLeave = new HashMap<>();
 
         viewCandidate = null;
         viewCenter = Vector.ZERO;
@@ -144,6 +152,7 @@ public abstract class Area implements Playable {
     @Override
     public void update(float deltaTime) {
         purgeRegistration();
+
         for (Actor actor : actors) {
             actor.update(deltaTime);
         }
@@ -164,6 +173,14 @@ public abstract class Area implements Playable {
 
         registeredActors.clear();
         unregisteredActors.clear();
+
+        for (Map.Entry<Interactable, List<DiscreteCoordinates>> entry : interactablesToEnter.entrySet())
+            areaBehavior.enter(entry.getKey(), entry.getValue());
+        for (Map.Entry<Interactable, List<DiscreteCoordinates>> entry : interactablesToLeave.entrySet())
+            areaBehavior.leave(entry.getKey(), entry.getValue());
+
+        interactablesToEnter.clear();
+        interactablesToLeave.clear();
     }
 
 
@@ -196,13 +213,17 @@ public abstract class Area implements Playable {
         this.areaBehavior = ab;
     }
 
+    public final AreaBehavior getAreaBehavior() {
+        return areaBehavior;
+    }
+
     public boolean hasBegun() {
         return hasBegun;
     }
 
     public final boolean leaveAreaCells(Interactable entity, List<DiscreteCoordinates> coordinates) {
         if (areaBehavior.canLeave(entity, coordinates)) {
-            areaBehavior.leave(entity, coordinates);
+            interactablesToLeave.put(entity, coordinates);
             return true;
         }
         return false;
@@ -210,7 +231,7 @@ public abstract class Area implements Playable {
 
     public final boolean enterAreaCells(Interactable entity, List<DiscreteCoordinates> coordinates) {
         if (areaBehavior.canEnter(entity, coordinates)) {
-            areaBehavior.enter(entity, coordinates);
+            interactablesToEnter.put(entity, coordinates);
             return true;
         }
         return false;

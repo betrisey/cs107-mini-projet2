@@ -3,9 +3,6 @@ package ch.epfl.cs107.play.game.areagame.actor;
 import ch.epfl.cs107.play.game.actor.Entity;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.game.actor.Entity;
-import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 
 
@@ -63,5 +60,8 @@ public abstract class AreaEntity extends Entity implements Interactable {
 
     protected Area getOwnerArea() {
         return ownerArea;
+    }
+    protected void setOwnerArea(Area ownerArea) {
+        this.ownerArea = ownerArea;
     }
 }

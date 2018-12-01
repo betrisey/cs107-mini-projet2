@@ -4,7 +4,7 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -48,8 +48,10 @@ public abstract class MovableAreaEntity extends AreaEntity {
   
     protected  boolean move(int framesForMove){
         if (!isMoving || getCurrentMainCellCoordinates().equals(targetMainCellCoordinates)) {
-            if (true) { // TODO : add area conditions here (for getLeavingCells and getEnteringCells)
-                framesForCurrentMove = Math.min(framesForMove, 1);
+            // TODO : check before calling leave/enter? 4.7.4
+            if (getOwnerArea().leaveAreaCells(this, getLeavingCells()) &&
+                    getOwnerArea().enterAreaCells(this, getEnteringCells())) {
+                framesForCurrentMove = Math.max(framesForMove, 1);
 
                 Vector orientation = getOrientation().toVector();
                 targetMainCellCoordinates = getCurrentMainCellCoordinates().jump(orientation);
@@ -70,6 +72,8 @@ public abstract class MovableAreaEntity extends AreaEntity {
             Vector distance = getOrientation().toVector();
             distance = distance.mul(1.0f / framesForCurrentMove);
             setCurrentPosition(getPosition().add(distance));
+        } else {
+            resetMotion();
         }
     }
 
@@ -79,7 +83,7 @@ public abstract class MovableAreaEntity extends AreaEntity {
     public Vector getVelocity() {
         // the velocity must be computed as the orientation vector (getOrientation().toVector() mutiplied by 
     	// framesForCurrentMove
-        return getOrientation().toVector().mul(framesForCurrentMove); // TODO: Check multiplication factor
+        return getOrientation().toVector().mul(framesForCurrentMove);
     }
 
     // TODO : Ces implémentations simples peuvent s’avérer inadaptées lorsque plusieurs acteurs voisins se déplacent
@@ -90,9 +94,7 @@ public abstract class MovableAreaEntity extends AreaEntity {
     }
 
     protected final List<DiscreteCoordinates> getEnteringCells() {
-        ArrayList<DiscreteCoordinates> enteringCells = new ArrayList<>();
-        enteringCells.add(this.getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
-        return enteringCells;
+        return Collections.singletonList(this.getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
     }
 
     @Override

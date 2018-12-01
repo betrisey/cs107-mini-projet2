@@ -1,6 +1,5 @@
 package ch.epfl.cs107.play.game.areagame;
 
-import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -22,7 +21,7 @@ public abstract class AreaBehavior
     private final int width, height;
 
     /// We will convert the image into an array of cells
-    private final Cell[][] cells; // x, y
+    protected final Cell[][] cells; // x, y
 
     /**
      * Default AreaBehavior Constructor
@@ -48,10 +47,6 @@ public abstract class AreaBehavior
         return behaviorMap;
     }
 
-    public Cell[][] getCells() {
-        return cells;
-    }
-
     public boolean canLeave(Interactable entity, List<DiscreteCoordinates> coordinates) {
         for (DiscreteCoordinates coord : coordinates) {
             if (!cells[coord.x][coord.y].canLeave(entity)) {
@@ -63,7 +58,8 @@ public abstract class AreaBehavior
 
     public boolean canEnter(Interactable entity, List<DiscreteCoordinates> coordinates) {
         for (DiscreteCoordinates coord : coordinates) {
-            if (!cells[coord.x][coord.y].canEnter(entity)) {
+            if (coord.x < 0 || coord.x >= getWidth() || coord.y < 0 || coord.y >= getHeight()
+                    || !cells[coord.x][coord.y].canEnter(entity)) {
                 return false;
             }
         }

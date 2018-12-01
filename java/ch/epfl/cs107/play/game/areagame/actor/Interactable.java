@@ -11,7 +11,6 @@ import java.util.List;
  * This interface makes sense only in the "AreaGame" context with Actor contained into Area Cell
  */
 public interface Interactable {
-    // TODO implements me #PROJECT #TUTO
     List<DiscreteCoordinates> getCurrentCells();
     boolean takeCellSpace();
     boolean isViewInteractable();

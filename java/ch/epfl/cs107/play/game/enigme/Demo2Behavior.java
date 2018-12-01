@@ -1,6 +1,8 @@
 package ch.epfl.cs107.play.game.enigme;
 
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
+import ch.epfl.cs107.play.game.areagame.actor.Interactable;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
 public class Demo2Behavior extends AreaBehavior {
@@ -13,13 +15,16 @@ public class Demo2Behavior extends AreaBehavior {
     public Demo2Behavior(Window window, String fileName) {
         super(window, fileName);
 
-        Cell[][] cells = getCells();
-        for (int y = 0; y < getWidth(); y++) {
-            for (int x = 0; x < getHeight(); x++) {
+        for (int x = 0; x < getHeight(); x++) {
+            for (int y = 0; y < getWidth(); y++) {
                 Demo2CellType cellType = Demo2CellType.toType(getBehaviorMap().getRGB(getHeight()-1-y, x));
-                cells[y][x] = new Demo2Cell(x, y, cellType);
+                cells[x][y] = new Demo2Cell(x, y, cellType);
             }
         }
+    }
+
+    public Demo2CellType getCellType(DiscreteCoordinates coordinates) {
+        return ((Demo2Cell)cells[coordinates.x][coordinates.y]).getType();
     }
 
     public enum Demo2CellType {
@@ -51,6 +56,35 @@ public class Demo2Behavior extends AreaBehavior {
         private Demo2Cell(int x, int y, Demo2CellType type) {
             super(x, y);
             this.type = type;
+        }
+
+        @Override
+        protected boolean canEnter(Interactable entity) {
+            return !(type == Demo2CellType.NULL || type == Demo2CellType.WALL);
+        }
+
+        @Override
+        public boolean isCellInteractable() {
+            return true;
+        }
+
+        @Override
+        public boolean isViewInteractable() {
+            return false;
+        }
+
+        @Override
+        protected boolean canLeave(Interactable entity) {
+            return true;
+        }
+
+        @Override
+        public boolean takeCellSpace() {
+            return false; // TODO
+        }
+
+        public Demo2CellType getType() {
+            return type;
         }
     }
 }

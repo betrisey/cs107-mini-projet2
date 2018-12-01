@@ -20,8 +20,13 @@ abstract public class AreaGame implements Game {
     private FileSystem fileSystem;
     /// A map containing all the Area of the Game
     private Map<String, Area> areas;
+
     /// The current area the game is in
     private Area currentArea;
+
+    protected Area getCurrentArea() {
+        return currentArea;
+    }
 
     /**
      * Add an Area to the AreaGame list

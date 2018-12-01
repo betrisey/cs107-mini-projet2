@@ -2,7 +2,6 @@ package ch.epfl.cs107.play.game.demo1;
 
 import java.awt.Color;
 
-import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.actor.GraphicsEntity;
 import ch.epfl.cs107.play.game.actor.ImageGraphics;
 import ch.epfl.cs107.play.game.actor.TextGraphics;
@@ -33,7 +32,6 @@ public class MovingRock extends GraphicsEntity {
 
 	@Override
 	public void draw(Canvas canvas) {
-		// TODO Auto-generated method stub
 		super.draw(canvas);
 		text.draw(canvas);
 		if(collision) {
