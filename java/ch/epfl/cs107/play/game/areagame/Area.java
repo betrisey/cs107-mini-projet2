@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.areagame;
 import ch.epfl.cs107.play.game.Playable;
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
+import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Transform;
@@ -27,6 +28,8 @@ public abstract class Area implements Playable {
     private AreaBehavior areaBehavior;
 
     private List<Actor> actors;
+
+    private List<Interactor> interactors;
 
     private List<Actor> registeredActors;
     private List<Actor> unregisteredActors;
@@ -57,6 +60,8 @@ public abstract class Area implements Playable {
         boolean errorOccured = !actors.add(a);
         if(a instanceof Interactable)
             errorOccured = errorOccured || !enterAreaCells(((Interactable) a), ((Interactable) a).getCurrentCells());
+        if(a instanceof Interactor)
+            errorOccured = errorOccured || !interactors.add((Interactor) a);
         if(errorOccured && !forced) {
             System.out.println("Actor " + a + " cannot be completely added, so remove it from where it was");
             removeActor(a, true);
@@ -72,9 +77,11 @@ public abstract class Area implements Playable {
         boolean errorOccured = !actors.remove(a) ;
         if(a instanceof Interactable)
             errorOccured = errorOccured || !leaveAreaCells(((Interactable) a), ((Interactable) a).getCurrentCells());
+        if(a instanceof Interactor)
+            errorOccured = errorOccured || !interactors.remove((Interactor) a);
         if(errorOccured && !forced) {
             System.out.println("Actor " + a + " cannot be completely removed, so add it where it was");
-            addActor(a, true); // TODO : check if we should add it back
+            //addActor(a, true); // TODO : check if we should add it back
         }
     }
 
@@ -123,7 +130,10 @@ public abstract class Area implements Playable {
     public boolean begin(Window window, FileSystem fileSystem) {
         this.window = window;
         this.fileSystem = fileSystem;
+
         actors = new LinkedList<>();
+
+        interactors = new LinkedList<>();
 
         registeredActors = new LinkedList<>();
         unregisteredActors = new LinkedList<>();
@@ -157,6 +167,18 @@ public abstract class Area implements Playable {
             actor.update(deltaTime);
         }
 
+        for (Interactor interactor : interactors) {
+            if (interactor.wantsCellInteraction()) {
+                // demander au gestionnaire de la grille (AreaBehavior)
+                //de mettre en place les interactions de contact
+                areaBehavior.cellInteractionOf(interactor);
+            }
+            if (interactor.wantsViewInteraction()) {
+                // demander au gestionnaire de la grille de mettre en place
+                // les interactions distantes
+                areaBehavior.viewInteractionOf(interactor);
+            }
+        }
 
         updateCamera();
 

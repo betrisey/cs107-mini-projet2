@@ -1,15 +1,13 @@
 package ch.epfl.cs107.play.game.areagame;
 
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
+import ch.epfl.cs107.play.game.areagame.actor.Interactor;
 import ch.epfl.cs107.play.game.areagame.io.ResourcePath;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Image;
 import ch.epfl.cs107.play.window.Window;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * AreaBehavior manages a map of Cells.
@@ -78,31 +76,55 @@ public abstract class AreaBehavior
         }
     }
 
+    public void cellInteractionOf(Interactor interactor) {
+        for (DiscreteCoordinates interactorCell : interactor.getCurrentCells()) {
+            cells[interactorCell.x][interactorCell.y].cellInteractionOf(interactor);
+        }
+    }
+
+    public void viewInteractionOf(Interactor interactor) {
+        for (DiscreteCoordinates interactorCell : interactor.getFieldOfViewCells()) {
+            cells[interactorCell.x][interactorCell.y].viewInteractionOf(interactor);
+        }
+    }
+
     public abstract class Cell implements Interactable {
         private DiscreteCoordinates coordinates;
-        private Set<Interactable> content;
+        private Set<Interactable> interactables;
 
         public Cell(int x, int y) {
             this.coordinates = new DiscreteCoordinates(x, y);
-            this.content = new HashSet<>();
+            this.interactables = new HashSet<>();
         }
 
         @Override
         public List<DiscreteCoordinates> getCurrentCells() {
-            List<DiscreteCoordinates> cells = new ArrayList<>();
-            cells.add(coordinates);
-            return cells;
+            return Collections.singletonList(coordinates);
         }
 
         private void enter(Interactable entity) {
             if (canEnter(entity)) {
-                content.add(entity);
+                interactables.add(entity);
             }
         }
 
         private void leave(Interactable entity) {
             if (canLeave(entity)) {
-                content.remove(entity);
+                interactables.remove(entity);
+            }
+        }
+
+        private void cellInteractionOf(Interactor interactor) {
+            for (Interactable interactable : interactables){
+                if (interactable.isCellInteractable())
+                    interactor.interactWith(interactable);
+            }
+        }
+
+        private void viewInteractionOf(Interactor interactor) {
+            for (Interactable interactable : interactables){
+                if (interactable.isViewInteractable())
+                    interactor.interactWith(interactable);
             }
         }
 

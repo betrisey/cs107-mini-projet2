@@ -1,30 +1,31 @@
-package ch.epfl.cs107.play.game.enigme.actor.demo2;
+package ch.epfl.cs107.play.game.enigme.actor;
 
 import ch.epfl.cs107.play.game.areagame.Area;
-import ch.epfl.cs107.play.game.areagame.actor.MovableAreaEntity;
-import ch.epfl.cs107.play.game.areagame.actor.Orientation;
-import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.enigme.Demo2Behavior;
 import ch.epfl.cs107.play.game.enigme.handler.EnigmeInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
+import ch.epfl.cs107.play.window.Keyboard;
 
 import java.util.Collections;
 import java.util.List;
 
-public class Demo2Player extends MovableAreaEntity {
+public class EnigmePlayer extends MovableAreaEntity implements Interactor {
     private boolean isPassingDoor;
+    private Door passedDoor;
     private Sprite ghostSprite;
+
+    private final EnigmePlayerHandler handler;
 
     // Animation duration in frame number
     private final static int ANIMATION_DURATION = 8;
 
-    public Demo2Player(Area area, Orientation orientation, DiscreteCoordinates coordinates) {
+    public EnigmePlayer(Area area, Orientation orientation, DiscreteCoordinates coordinates) {
         super(area, orientation, coordinates);
         isPassingDoor = false;
         ghostSprite = new Sprite("ghost.1", 1, 1, this);
-        setOrientation(Orientation.DOWN);
+        handler = new EnigmePlayerHandler();
     }
 
     public void enterArea(Area area, DiscreteCoordinates position) {
@@ -44,6 +45,15 @@ public class Demo2Player extends MovableAreaEntity {
 
     public boolean isPassingDoor() {
         return isPassingDoor;
+    }
+
+    public void setIsPassingDoor(Door door) {
+        this.passedDoor = door;
+        isPassingDoor = true;
+    }
+
+    public Door passedDoor() {
+        return passedDoor;
     }
 
     @Override
@@ -72,11 +82,6 @@ public class Demo2Player extends MovableAreaEntity {
     }
 
     @Override
-    public void acceptInteraction(AreaInteractionVisitor handler) {
-        ((EnigmeInteractionVisitor) handler).interactWith(this);
-    }
-
-    @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
 
@@ -92,15 +97,46 @@ public class Demo2Player extends MovableAreaEntity {
     }
 
     @Override
-    protected boolean move(int framesForMove) {
-        isPassingDoor = false;
-        for (DiscreteCoordinates coordinates : getEnteringCells()) {
-            Demo2Behavior.Demo2CellType cellType = ((Demo2Behavior)getOwnerArea().getAreaBehavior()).getCellType(coordinates);
-            if (cellType == Demo2Behavior.Demo2CellType.DOOR) {
-                isPassingDoor = true;
-                break;
-            }
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+        return Collections.singletonList(getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
+    }
+
+    @Override
+    public boolean wantsCellInteraction() {
+        return true;
+    }
+
+    @Override
+    public boolean wantsViewInteraction() {
+        return getOwnerArea().getKeyboard().get(Keyboard.L).isDown();
+    }
+
+    @Override
+    public void interactWith(Interactable other) {
+        other.acceptInteraction(handler);
+    }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor handler) {
+        ((EnigmeInteractionVisitor) handler).interactWith(this);
+    }
+
+    /**
+     * Specific interaction handler for an EnigmePlayer
+     */
+    private class EnigmePlayerHandler implements EnigmeInteractionVisitor {
+        @Override
+        public void interactWith(Door door) {
+            // fait en sorte que la porte soit passée par l'acteur
+            setIsPassingDoor(door);
         }
-        return super.move(framesForMove);
+
+        @Override
+        public void interactWith(Apple apple){
+            // fait en sorte que la pomme soit ramassée
+            apple.collect(); // TODO: complete this and apple.collect()
+        }
+
+
     }
 }
