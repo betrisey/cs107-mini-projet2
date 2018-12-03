@@ -3,32 +3,28 @@ package ch.epfl.cs107.play.game.enigme;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.areagame.handler.EnigmeInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
-public class Demo2Behavior extends AreaBehavior {
-    /**
-     * Default AreaBehavior Constructor
-     *
-     * @param window   (Window): graphic context, not null
-     * @param fileName (String): name of the file containing the behavior image, not null
-     */
-    public Demo2Behavior(Window window, String fileName) {
+public class EnigmeBehavior extends AreaBehavior {
+
+	public EnigmeBehavior(Window window, String fileName) {
         super(window, fileName);
 
         for (int x = 0; x < getHeight(); x++) {
             for (int y = 0; y < getWidth(); y++) {
-                Demo2CellType cellType = Demo2CellType.toType(getBehaviorMap().getRGB(getHeight()-1-y, x));
-                cells[x][y] = new Demo2Cell(x, y, cellType);
+                EnigmeCellType cellType = EnigmeCellType.toType(getBehaviorMap().getRGB(getHeight()-1-y, x));
+                cells[x][y] = new EnigmeCell(x, y, cellType);
             }
         }
     }
 
-    public Demo2CellType getCellType(DiscreteCoordinates coordinates) {
-        return ((Demo2Cell)cells[coordinates.x][coordinates.y]).getType();
+    public EnigmeCellType getCellType(DiscreteCoordinates coordinates) {
+        return ((EnigmeCell)cells[coordinates.x][coordinates.y]).getType();
     }
 
-    public enum Demo2CellType {
+    public enum EnigmeCellType {
         NULL(0),
         WALL(-16777216),  // RGB code of black
         DOOR(-65536),     // RGB code of red
@@ -37,12 +33,12 @@ public class Demo2Behavior extends AreaBehavior {
         OUTDOOR_WALKABLE(-14112955);
         final int type;
 
-        Demo2CellType(int type) {
+        EnigmeCellType(int type) {
             this.type = type;
         }
 
-        public static Demo2CellType toType(int type) {
-            for (Demo2CellType cellType : values()) {
+        public static EnigmeCellType toType(int type) {
+            for (EnigmeCellType cellType : values()) {
                 if (type == cellType.type) {
                     return cellType;
                 }
@@ -51,17 +47,17 @@ public class Demo2Behavior extends AreaBehavior {
         }
     }
 
-    public class Demo2Cell extends Cell {
-        private Demo2CellType type;
+    public class EnigmeCell extends Cell {
+        private EnigmeCellType type;
 
-        private Demo2Cell(int x, int y, Demo2CellType type) {
+        private EnigmeCell(int x, int y, EnigmeCellType type) {
             super(x, y);
             this.type = type;
         }
 
         @Override
         protected boolean canEnter(Interactable entity) {
-            return !(type == Demo2CellType.NULL || type == Demo2CellType.WALL);
+            return !(type == EnigmeCellType.NULL || type == EnigmeCellType.WALL);
         }
 
         @Override
@@ -84,14 +80,15 @@ public class Demo2Behavior extends AreaBehavior {
             return false; // TODO
         }
 
-        public Demo2CellType getType() {
+        public EnigmeCellType getType() {
             return type;
         }
 
 		@Override
 		public void acceptInteraction(AreaInteractionVisitor v) {
-			// TODO Auto-generated method stub
+			((EnigmeInteractionVisitor)v).interactWith(this);
 			
 		}
     }
 }
+
