@@ -1,7 +1,6 @@
 package ch.epfl.cs107.play.game.areagame.handler;
 
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
-import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 
 
 public interface AreaInteractionVisitor {

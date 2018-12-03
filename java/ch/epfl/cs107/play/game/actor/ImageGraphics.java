@@ -6,11 +6,6 @@ import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Image;
-import ch.epfl.cs107.play.math.Node;
-import ch.epfl.cs107.play.math.Transform;
-import ch.epfl.cs107.play.math.Vector;
-import ch.epfl.cs107.play.window.Canvas;
-import ch.epfl.cs107.play.window.Image;
 
 
 /**

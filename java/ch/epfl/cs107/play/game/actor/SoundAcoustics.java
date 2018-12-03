@@ -2,8 +2,6 @@ package ch.epfl.cs107.play.game.actor;
 
 import ch.epfl.cs107.play.window.Audio;
 import ch.epfl.cs107.play.window.Sound;
-import ch.epfl.cs107.play.window.Audio;
-import ch.epfl.cs107.play.window.Sound;
 
 public class SoundAcoustics implements Acoustics {
 

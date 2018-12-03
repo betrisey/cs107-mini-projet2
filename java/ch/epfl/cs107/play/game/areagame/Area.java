@@ -77,7 +77,7 @@ public abstract class Area implements Playable {
         if(a instanceof Interactable)
             errorOccured = errorOccured || !leaveAreaCells(((Interactable) a), ((Interactable) a).getCurrentCells());
         if(a instanceof Interactor)
-            errorOccured = errorOccured || !interactors.remove((Interactor) a);
+            errorOccured = errorOccured || !interactors.remove(a);
         if(errorOccured && !forced) {
             System.out.println("Actor " + a + " cannot be completely removed, so add it where it was");
             addActor(a, true); // TODO : check if we should add it back

@@ -18,4 +18,8 @@ public abstract class Collectable extends AreaEntity {
 
         isCollected = true;
     }
+
+    public boolean isCollected() {
+        return isCollected;
+    }
 }

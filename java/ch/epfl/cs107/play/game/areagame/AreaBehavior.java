@@ -7,7 +7,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Image;
 import ch.epfl.cs107.play.window.Window;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -94,7 +93,7 @@ public abstract class AreaBehavior
 
     public abstract class Cell implements Interactable {
     	protected final DiscreteCoordinates coordinates;
-        protected Set<Interactable> interactables;
+        protected final Set<Interactable> interactables;
 
         public Cell(int x, int y) {
             this.coordinates = new DiscreteCoordinates(x, y);

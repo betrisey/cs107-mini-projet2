@@ -3,9 +3,6 @@ package ch.epfl.cs107.play.game.actor;
 import ch.epfl.cs107.play.math.Node;
 import ch.epfl.cs107.play.math.Shape;
 import ch.epfl.cs107.play.window.Canvas;
-import ch.epfl.cs107.play.math.Node;
-import ch.epfl.cs107.play.math.Shape;
-import ch.epfl.cs107.play.window.Canvas;
 
 import java.awt.Color;
 

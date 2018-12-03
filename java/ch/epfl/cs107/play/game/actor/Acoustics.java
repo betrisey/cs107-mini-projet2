@@ -1,7 +1,6 @@
 package ch.epfl.cs107.play.game.actor;
 
 import ch.epfl.cs107.play.window.Audio;
-import ch.epfl.cs107.play.window.Audio;
 
 
 public interface Acoustics {

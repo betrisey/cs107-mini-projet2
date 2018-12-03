@@ -3,9 +3,6 @@ package ch.epfl.cs107.play.game.actor;
 import ch.epfl.cs107.play.game.Updatable;
 import ch.epfl.cs107.play.math.Positionable;
 import ch.epfl.cs107.play.window.Audio;
-import ch.epfl.cs107.play.game.Updatable;
-import ch.epfl.cs107.play.math.Positionable;
-import ch.epfl.cs107.play.window.Audio;
 
 
 /**

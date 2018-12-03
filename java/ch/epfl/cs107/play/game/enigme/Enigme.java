@@ -8,10 +8,6 @@ import ch.epfl.cs107.play.game.enigme.actor.EnigmePlayer;
 import ch.epfl.cs107.play.game.enigme.area.*;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.window.Keyboard;
-import ch.epfl.cs107.play.window.Window;
-import ch.epfl.cs107.play.game.areagame.AreaGame;
-import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.window.Window;
 
 
@@ -24,9 +20,7 @@ public class Enigme extends AreaGame {
     public static final float CAMERA_SCALE_FACTOR = 22;
 
     /// The player is a concept of RPG games
-    // TODO implements me #PROJECT
     private EnigmePlayer player;
-    private EnigmeArea[] areas;
 
     /// Enigme implements Playable
 
@@ -39,7 +33,7 @@ public class Enigme extends AreaGame {
     public boolean begin(Window window, FileSystem fileSystem) {
         super.begin(window, fileSystem);
 
-        areas = new EnigmeArea[]{new LevelSelector(), new Level1(), new Level2(), new Level3()};
+        EnigmeArea[] areas = new EnigmeArea[]{new LevelSelector(), new Level1(), new Level2(), new Level3()};
         for (EnigmeArea area : areas) {
             addArea(area);
         }
@@ -61,7 +55,7 @@ public class Enigme extends AreaGame {
             player.leaveArea(getCurrentArea());
 
             Door door = player.passedDoor();
-            Area area = setCurrentArea(door.getDestinationName(), true);
+            Area area = setCurrentArea(door.getDestinationArea(), true); // TODO Should we reset the level?
             player.enterArea(area, door.getDestinationCoordinates());
             area.setViewCandidate(player);
         }
