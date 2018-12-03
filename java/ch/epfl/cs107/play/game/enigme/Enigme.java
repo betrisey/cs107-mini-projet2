@@ -33,7 +33,7 @@ public class Enigme extends AreaGame {
 
     @Override
     public String getTitle() {
-        return "Demo2";
+        return "Enigme";
     }
 
     @Override

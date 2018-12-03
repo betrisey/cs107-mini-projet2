@@ -1,5 +1,7 @@
 package ch.epfl.cs107.play.game.enigme;
 
+import java.util.Iterator;
+
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
@@ -57,6 +59,14 @@ public class EnigmeBehavior extends AreaBehavior {
 
         @Override
         protected boolean canEnter(Interactable entity) {
+        	if (entity.takeCellSpace()) {
+        		for (Interactable interactable : interactables) {
+					if (interactable.takeCellSpace()) {
+						return false;
+					}
+				}
+        	}
+        	
             return !(type == EnigmeCellType.NULL || type == EnigmeCellType.WALL);
         }
 

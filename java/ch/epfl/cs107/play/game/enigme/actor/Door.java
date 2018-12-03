@@ -36,7 +36,7 @@ public class Door extends AreaEntity{
 	@Override
 	public boolean takeCellSpace() {
 		
-		return true;
+		return false;
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import ch.epfl.cs107.play.window.Image;
 import ch.epfl.cs107.play.window.Window;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -89,8 +90,8 @@ public abstract class AreaBehavior
     	}
     }
     public abstract class Cell implements Interactable {
-        private DiscreteCoordinates coordinates;
-        private Set<Interactable> interactables;
+    	protected final DiscreteCoordinates coordinates;
+        protected Set<Interactable> interactables;
 
         public Cell(int x, int y) {
             this.coordinates = new DiscreteCoordinates(x, y);
@@ -99,9 +100,7 @@ public abstract class AreaBehavior
 
         @Override
         public List<DiscreteCoordinates> getCurrentCells() {
-            List<DiscreteCoordinates> cells = new ArrayList<>();
-            cells.add(coordinates);
-            return cells;
+        	return Collections.singletonList(coordinates);
         }
         private void cellInteractionOf(Interactor interactor){ 
         	for(Interactable interactable : interactables){

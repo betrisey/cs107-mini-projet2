@@ -11,6 +11,7 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.areagame.handler.EnigmeInteractionVisitor;
+import ch.epfl.cs107.play.game.enigme.EnigmeBehavior.EnigmeCell;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
@@ -129,8 +130,17 @@ import ch.epfl.cs107.play.window.Keyboard;
 			}
 			@Override
 			public void interactWith(Apple apple){
-			apple.pickUp();
-			} }
+				apple.pickUp();
+			}
+			@Override
+			public void interactWith(EnigmeCell cell) {
+				
+			}
+			@Override
+			public void interactWith(EnigmePlayer player) {
+				
+			}
+		}
 
 		@Override
 		public void acceptInteraction(AreaInteractionVisitor v) {

@@ -25,6 +25,7 @@ public class Apple extends AreaEntity {
 
 	public void pickUp() {
 		isPickedup=true;
+		getOwnerArea().unregisterActor(this);
 	}
 	
 	
@@ -50,7 +51,6 @@ public class Apple extends AreaEntity {
 
 	@Override
 	public boolean isCellInteractable() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
