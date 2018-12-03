@@ -13,10 +13,11 @@ import java.util.List;
  */
 public interface Interactable {
     List<DiscreteCoordinates> getCurrentCells();
+
     boolean takeCellSpace();
+
     boolean isViewInteractable();
     boolean isCellInteractable();
-	
-	void acceptInteraction(AreaInteractionVisitor v) ;
-		
+
+    void acceptInteraction(AreaInteractionVisitor v);
 }

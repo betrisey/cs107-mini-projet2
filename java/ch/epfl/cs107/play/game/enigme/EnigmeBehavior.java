@@ -1,17 +1,19 @@
 package ch.epfl.cs107.play.game.enigme;
 
-import java.util.Iterator;
-
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.game.areagame.handler.EnigmeInteractionVisitor;
+import ch.epfl.cs107.play.game.enigme.handler.EnigmeInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
 public class EnigmeBehavior extends AreaBehavior {
 
-	public EnigmeBehavior(Window window, String fileName) {
+    /**
+     * @param window   (Window): graphic context, not null
+     * @param fileName (String): name of the file containing the behavior image, not null
+     */
+    public EnigmeBehavior(Window window, String fileName) {
         super(window, fileName);
 
         for (int x = 0; x < getHeight(); x++) {
@@ -66,7 +68,7 @@ public class EnigmeBehavior extends AreaBehavior {
 					}
 				}
         	}
-        	
+
             return !(type == EnigmeCellType.NULL || type == EnigmeCellType.WALL);
         }
 
@@ -94,11 +96,10 @@ public class EnigmeBehavior extends AreaBehavior {
             return type;
         }
 
-		@Override
-		public void acceptInteraction(AreaInteractionVisitor v) {
-			((EnigmeInteractionVisitor)v).interactWith(this);
-			
-		}
+        @Override
+        public void acceptInteraction(AreaInteractionVisitor v) {
+            ((EnigmeInteractionVisitor)v).interactWith(this);
+        }
     }
 }
 

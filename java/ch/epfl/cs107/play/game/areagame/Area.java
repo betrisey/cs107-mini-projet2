@@ -59,8 +59,8 @@ public abstract class Area implements Playable {
         boolean errorOccured = !actors.add(a);
         if(a instanceof Interactable)
             errorOccured = errorOccured || !enterAreaCells(((Interactable) a), ((Interactable) a).getCurrentCells());
-        if(a instanceof Interactor) errorOccured = errorOccured ||
-        		!interactors.add((Interactor) a);
+        if(a instanceof Interactor)
+            errorOccured = errorOccured || !interactors.add((Interactor) a);
         if(errorOccured && !forced) {
             System.out.println("Actor " + a + " cannot be completely added, so remove it from where it was");
             removeActor(a, true);
@@ -75,9 +75,9 @@ public abstract class Area implements Playable {
     private void removeActor(Actor a, boolean forced){
         boolean errorOccured = !actors.remove(a) ;
         if(a instanceof Interactable)
-          errorOccured = errorOccured || !leaveAreaCells(((Interactable) a), ((Interactable) a).getCurrentCells());
-        if(a instanceof Interactor) errorOccured = errorOccured ||
-        		!interactors.remove((Interactor) a);
+            errorOccured = errorOccured || !leaveAreaCells(((Interactable) a), ((Interactable) a).getCurrentCells());
+        if(a instanceof Interactor)
+            errorOccured = errorOccured || !interactors.remove((Interactor) a);
         if(errorOccured && !forced) {
             System.out.println("Actor " + a + " cannot be completely removed, so add it where it was");
             addActor(a, true); // TODO : check if we should add it back
@@ -129,6 +129,7 @@ public abstract class Area implements Playable {
     public boolean begin(Window window, FileSystem fileSystem) {
         this.window = window;
         this.fileSystem = fileSystem;
+
         actors = new LinkedList<>();
         interactors=new LinkedList<>();
 
@@ -163,26 +164,24 @@ public abstract class Area implements Playable {
         for (Actor actor : actors) {
             actor.update(deltaTime);
         }
-        
-        for (Interactor interactor : interactors) {
-        	if (interactor.wantsCellInteraction()) {
-		        // demander au gestionnaire de la grille (AreaBehavior)
-		        //de mettre en place les interactions de contact
-        		areaBehavior.cellInteractionOf(interactor);
-	        }
-	        if (interactor.wantsViewInteraction()) {
-		        // demander au gestionnaire de la grille de mettre en place
-		        // les interactions distantes
-	        	areaBehavior.viewInteractionOf(interactor);
-	        }
-        }
 
+        for (Interactor interactor : interactors) {
+            if (interactor.wantsCellInteraction()) {
+                // demander au gestionnaire de la grille (AreaBehavior)
+                //de mettre en place les interactions de contact
+                areaBehavior.cellInteractionOf(interactor);
+            }
+            if (interactor.wantsViewInteraction()) {
+                // demander au gestionnaire de la grille de mettre en place
+                // les interactions distantes
+                areaBehavior.viewInteractionOf(interactor);
+            }
+        }
 
         updateCamera();
 
         for (Actor actor : actors) {
             actor.draw(window);
-            
         }
     }
 

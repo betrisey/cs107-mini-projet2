@@ -90,8 +90,7 @@ public class Demo2Behavior extends AreaBehavior {
 
 		@Override
 		public void acceptInteraction(AreaInteractionVisitor v) {
-			// TODO Auto-generated method stub
-			
+			// Demo2 doesn't handle interactions
 		}
     }
 }
