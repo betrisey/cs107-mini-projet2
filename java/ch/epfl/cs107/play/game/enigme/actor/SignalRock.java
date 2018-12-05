@@ -4,35 +4,35 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.enigme.handler.EnigmeInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.signal.Signal;
+import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.Collections;
 import java.util.List;
 
-public abstract class Collectable extends AreaEntity {
-    private boolean isCollected;
-    private Sprite sprite;
+public class SignalRock extends AreaEntity {
+    private Signal signal;
+    private Sprite rock;
 
-    public Collectable(Area area, Orientation orientation, DiscreteCoordinates position, String spriteName) {
+    public SignalRock(Signal signal, Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
-        isCollected = false;
-        sprite = new Sprite(spriteName, 1, 1, this);
-    }
 
-    public void collect() {
-        getOwnerArea().unregisterActor(this); // TODO should we keep it and just hide it?
+        this.signal = signal;
 
-        isCollected = true;
-    }
-
-    public boolean isCollected() {
-        return isCollected;
+        this.rock = new Sprite("rock.3", 1, 1, this);
     }
 
     @Override
     public void draw(Canvas canvas) {
-        sprite.draw(canvas);
+        if (!isOn()) rock.draw(canvas);
+    }
+
+    private boolean isOn() {
+        return signal.is(Logic.TRUE, 0);
     }
 
     @Override
@@ -42,16 +42,21 @@ public abstract class Collectable extends AreaEntity {
 
     @Override
     public boolean takeCellSpace() {
-        return true;
+        return !isOn();
     }
 
     @Override
     public boolean isViewInteractable() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCellInteractable() {
         return false;
+    }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v) {
+        ((EnigmeInteractionVisitor) v).interactWith(this);
     }
 }

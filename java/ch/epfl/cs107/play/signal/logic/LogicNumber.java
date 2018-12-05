@@ -16,7 +16,7 @@ public class LogicNumber extends LogicSignal {
         if (e.length > 12 || nb < 0 || nb > Math.pow(2, e.length))
             return false;
 
-        int value = IntStream.range(0, e.length - 1)
+        int value = IntStream.range(0, e.length)
                 .filter(i -> e[i].isOn())
                 .map(i -> (int) Math.pow(2, i))
                 .sum();

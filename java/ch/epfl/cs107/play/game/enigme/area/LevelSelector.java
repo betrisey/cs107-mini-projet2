@@ -4,6 +4,8 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.enigme.actor.*;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.signal.Signal;
+import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Window;
 
 public class LevelSelector extends EnigmeArea {
@@ -19,33 +21,20 @@ public class LevelSelector extends EnigmeArea {
         for (int i = 1; i <= 8; i++) {
             String destinationName = "";
             DiscreteCoordinates destinationCoordinates = new DiscreteCoordinates(5 ,5);
-            if (i <= 2) {
+            Signal signal = Logic.FALSE;
+            if (i <= 3) {
                 destinationName = "Level" + i;
                 destinationCoordinates = new DiscreteCoordinates(5 ,1);
+                signal = Logic.TRUE;
             }
 
             DiscreteCoordinates doorCoordinates = new DiscreteCoordinates(i, 7);
 
-            Door door = new Door(this, destinationName, destinationCoordinates, Orientation.DOWN,
+            Door door = new SignalDoor(signal, this, destinationName, destinationCoordinates, Orientation.DOWN,
                     doorCoordinates, doorCoordinates);
 
             registerActor(door);
         }
-
-        Key key = new Key(this, Orientation.DOWN, new DiscreteCoordinates(5, 3));
-        registerActor(key);
-
-        Torch torch = new Torch(this, Orientation.DOWN, new DiscreteCoordinates(5, 4), false);
-        registerActor(torch);
-
-        PressureSwitch pressureSwitch = new PressureSwitch(this, Orientation.DOWN, new DiscreteCoordinates(6, 4));
-        registerActor(pressureSwitch);
-
-        Lever lever = new Lever(this, Orientation.DOWN, new DiscreteCoordinates(4, 4), false);
-        registerActor(lever);
-
-        PressurePlate pressurePlate = new PressurePlate(this, Orientation.DOWN, new DiscreteCoordinates(3, 4));
-        registerActor(pressurePlate);
 
         return true;
     }
