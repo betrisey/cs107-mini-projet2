@@ -1,7 +1,7 @@
 package ch.epfl.cs107.play.game.enigme.area;
 
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
-import ch.epfl.cs107.play.game.enigme.actor.Door;
+import ch.epfl.cs107.play.game.enigme.actor.*;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
@@ -31,6 +31,21 @@ public class LevelSelector extends EnigmeArea {
 
             registerActor(door);
         }
+
+        Key key = new Key(this, Orientation.DOWN, new DiscreteCoordinates(5, 3));
+        registerActor(key);
+
+        Torch torch = new Torch(this, Orientation.DOWN, new DiscreteCoordinates(5, 4), false);
+        registerActor(torch);
+
+        PressureSwitch pressureSwitch = new PressureSwitch(this, Orientation.DOWN, new DiscreteCoordinates(6, 4));
+        registerActor(pressureSwitch);
+
+        Lever lever = new Lever(this, Orientation.DOWN, new DiscreteCoordinates(4, 4), false);
+        registerActor(lever);
+
+        PressurePlate pressurePlate = new PressurePlate(this, Orientation.DOWN, new DiscreteCoordinates(3, 4));
+        registerActor(pressurePlate);
 
         return true;
     }

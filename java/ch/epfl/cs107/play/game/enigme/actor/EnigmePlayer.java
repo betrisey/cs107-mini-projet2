@@ -132,10 +132,20 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
             setIsPassingDoor(door);
         }
 
-        @Override
+        /*@Override
         public void interactWith(Apple apple){
             // fait en sorte que la pomme soit ramassée
-            apple.collect(); // TODO: complete this and apple.collect()
+            apple.collect();
+        }*/
+
+        @Override
+        public void interactWith(Collectable collectable) {
+            collectable.collect();
+        }
+
+        @Override
+        public void interactWith(Switchable switchable) {
+            switchable.switchState(EnigmePlayer.this);
         }
     }
 }
