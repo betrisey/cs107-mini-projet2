@@ -44,12 +44,10 @@ public class PressureSwitch extends Switchable {
     }
 
     @Override
-    protected void rememberSwitch(Interactor interactor) {
-        currentInteractor = interactor;
-    }
-
-    @Override
-    protected boolean canSwitch(Interactor interactor) {
-        return currentInteractor == null;
+    public void switchState(Interactor interactor) {
+        if (currentInteractor == null) {
+            super.switchState(interactor);
+            currentInteractor = interactor;
+        }
     }
 }

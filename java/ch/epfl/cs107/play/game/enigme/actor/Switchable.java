@@ -29,14 +29,8 @@ public abstract class Switchable extends AreaEntity implements Logic {
     }
 
     public void switchState(Interactor interactor) {
-        if (canSwitch(interactor)) {
-            this.isOn = !this.isOn;
-            rememberSwitch(interactor);
-        }
+        this.isOn = !this.isOn;
     }
-
-    abstract protected void rememberSwitch(Interactor interactor);
-    abstract protected boolean canSwitch(Interactor interactor);
 
     @Override
     public void draw(Canvas canvas) {

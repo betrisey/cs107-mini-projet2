@@ -109,7 +109,7 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
 
     @Override
     public boolean wantsViewInteraction() {
-        return getOwnerArea().getKeyboard().get(Keyboard.L).isDown();
+        return getOwnerArea().getKeyboard().get(Keyboard.L).isPressed();
     }
 
     @Override

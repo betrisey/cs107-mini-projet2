@@ -4,7 +4,6 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.enigme.actor.*;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.signal.Signal;
 import ch.epfl.cs107.play.signal.logic.*;
 import ch.epfl.cs107.play.window.Window;
 
@@ -24,7 +23,8 @@ public class Level3 extends EnigmeArea {
         Torch torch = new Torch(this, Orientation.DOWN, new DiscreteCoordinates(7, 5), false);
         registerActor(torch);
 
-        PressurePlate pressurePlate = new PressurePlate(this, Orientation.DOWN, new DiscreteCoordinates(9, 8));
+        PressurePlate pressurePlate = new PressurePlate(this, Orientation.DOWN,
+                new DiscreteCoordinates(9, 8), 0.001f);
         registerActor(pressurePlate);
 
         PressureSwitch[] pressureSwitches = new PressureSwitch[7];

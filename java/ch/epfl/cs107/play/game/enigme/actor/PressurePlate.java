@@ -6,11 +6,12 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class PressurePlate extends Switchable {
-    private final float DELAY = 0.3f;
+    private final float DELAY;
     private float timeLeft;
 
-    public PressurePlate(Area area, Orientation orientation, DiscreteCoordinates position) {
+    public PressurePlate(Area area, Orientation orientation, DiscreteCoordinates position, float delay) {
         super(area, orientation, position, "GroundLightOn", "GroundPlateOff", false);
+        this.DELAY = delay;
     }
 
     @Override
@@ -47,16 +48,5 @@ public class PressurePlate extends Switchable {
 
         if (timeLeft < 0)
             timeLeft = 0;
-    }
-
-    @Override
-    protected void rememberSwitch(Interactor interactor) {
-        // Not used by this class
-    }
-
-    @Override
-    protected boolean canSwitch(Interactor interactor) {
-        // Not used by this class
-        return true;
     }
 }
