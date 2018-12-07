@@ -24,7 +24,7 @@ public class Level3 extends EnigmeArea {
         registerActor(torch);
 
         PressurePlate pressurePlate = new PressurePlate(this, Orientation.DOWN,
-                new DiscreteCoordinates(9, 8), 0.001f);
+                new DiscreteCoordinates(9, 8), 0.3f);
         registerActor(pressurePlate);
 
         PressureSwitch[] pressureSwitches = new PressureSwitch[7];

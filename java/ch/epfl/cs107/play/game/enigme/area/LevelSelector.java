@@ -21,7 +21,7 @@ public class LevelSelector extends EnigmeArea {
         for (int i = 1; i <= 8; i++) {
             String destinationName = "";
             DiscreteCoordinates destinationCoordinates = new DiscreteCoordinates(5 ,5);
-            Signal signal = Logic.FALSE;
+            Logic signal = Logic.FALSE;
             if (i <= 3) {
                 destinationName = "Level" + i;
                 destinationCoordinates = new DiscreteCoordinates(5 ,1);

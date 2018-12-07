@@ -9,10 +9,10 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
 
 public class SignalDoor extends Door {
-    private Signal signal;
+    private Logic signal;
     private Sprite openSprite, closeSprite;
 
-    public SignalDoor(Signal signal, Area area, String destinationArea, DiscreteCoordinates destinationCoordinates,
+    public SignalDoor(Logic signal, Area area, String destinationArea, DiscreteCoordinates destinationCoordinates,
                       Orientation orientation, DiscreteCoordinates position, DiscreteCoordinates... occupiedCoordinates) {
         super(area, destinationArea, destinationCoordinates, orientation, position, occupiedCoordinates);
         this.signal = signal;
@@ -40,6 +40,6 @@ public class SignalDoor extends Door {
     }
 
     private boolean isOpen() {
-        return signal.is(Logic.TRUE, 0);
+        return signal.isOn();
     }
 }

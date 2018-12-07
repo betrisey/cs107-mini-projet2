@@ -15,10 +15,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class SignalRock extends AreaEntity {
-    private Signal signal;
+    private Logic signal;
     private Sprite rock;
 
-    public SignalRock(Signal signal, Area area, Orientation orientation, DiscreteCoordinates position) {
+    public SignalRock(Logic signal, Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
 
         this.signal = signal;
@@ -28,11 +28,7 @@ public class SignalRock extends AreaEntity {
 
     @Override
     public void draw(Canvas canvas) {
-        if (!isOn()) rock.draw(canvas);
-    }
-
-    private boolean isOn() {
-        return signal.is(Logic.TRUE, 0);
+        if (!signal.isOn()) rock.draw(canvas);
     }
 
     @Override
@@ -42,7 +38,7 @@ public class SignalRock extends AreaEntity {
 
     @Override
     public boolean takeCellSpace() {
-        return !isOn();
+        return !signal.isOn();
     }
 
     @Override
