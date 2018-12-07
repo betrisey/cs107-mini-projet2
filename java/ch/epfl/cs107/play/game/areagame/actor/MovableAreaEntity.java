@@ -107,5 +107,8 @@ public abstract class MovableAreaEntity extends AreaEntity {
     protected boolean isMoving() {
     	return isMoving;
     }
-    
+
+    protected DiscreteCoordinates getTargetMainCellCoordinates() {
+        return targetMainCellCoordinates;
+    }
 }

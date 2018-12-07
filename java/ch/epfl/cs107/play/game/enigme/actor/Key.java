@@ -32,8 +32,8 @@ public class Key extends Collectable implements Logic{
 		
 	}
 
-	
-	
+
+
 	
 }
 

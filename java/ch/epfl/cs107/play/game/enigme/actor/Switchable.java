@@ -31,12 +31,6 @@ public abstract class Switchable extends AreaEntity implements Logic {
 	}
 
 	@Override
-	public void acceptInteraction(AreaInteractionVisitor v) {
-		 ((EnigmeInteractionVisitor) v).interactWith(this);
-
-	}
-
-	@Override
 	public void draw(Canvas canvas) {
 		if(isOn()) {
 			onSprite.draw(canvas);

@@ -5,7 +5,7 @@ public class LogicNumber extends LogicSignal{
 	private Logic[] signaux;
 	private float nb;
 	
-	LogicNumber(float nb, Logic... signaux){
+	public LogicNumber(float nb, Logic... signaux){
 		this.signaux=signaux;
 		this.nb=nb;
 	}

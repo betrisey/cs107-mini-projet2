@@ -35,7 +35,7 @@ public abstract class AreaEntity extends Entity implements Interactable {
      * Getter for the coordinates of the main cell occupied by the AreaEntity
      * @return (DiscreteCoordinates)
      */
-    public DiscreteCoordinates getCurrentMainCellCoordinates(){
+    protected DiscreteCoordinates getCurrentMainCellCoordinates(){
         return currentMainCellCoordinates;
     }
 

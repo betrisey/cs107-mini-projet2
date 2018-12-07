@@ -9,7 +9,7 @@ public class MultipleAnd extends LogicSignal{
 	}
 	@Override
 	public boolean isOn() {
-		if(signaux!=null) {
+		if(signaux==null) {
 			return false;
 		}
 		for(Logic signal : signaux ) {

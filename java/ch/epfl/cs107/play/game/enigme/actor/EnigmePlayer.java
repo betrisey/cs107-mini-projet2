@@ -109,7 +109,7 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
 
     @Override
     public boolean wantsViewInteraction() {
-        return getOwnerArea().getKeyboard().get(Keyboard.L).isDown();
+        return getOwnerArea().getKeyboard().get(Keyboard.L).isPressed();
     }
 
     @Override
@@ -147,7 +147,7 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
 
         @Override
         public void interactWith(PressureSwitch bouton){
-        	if(isMoving()&&getCurrentMainCellCoordinates().equals(bouton.getCurrentMainCellCoordinates())) {
+        	if(isMoving()&&getCurrentMainCellCoordinates().equals(getTargetMainCellCoordinates())) {
                 bouton.switchState();
         	}
         }
