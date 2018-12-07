@@ -19,7 +19,7 @@ public class LevelSelector extends EnigmeArea {
         for (int i = 1; i <= 8; i++) {
             String destinationName = "";
             DiscreteCoordinates destinationCoordinates = new DiscreteCoordinates(5 ,5);
-            if (i <= 2) {
+            if (i <= 3) {
                 destinationName = "Level" + i;
                 destinationCoordinates = new DiscreteCoordinates(5 ,1);
             }

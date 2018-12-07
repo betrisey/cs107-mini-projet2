@@ -133,9 +133,36 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         }
 
         @Override
-        public void interactWith(Apple apple){
-            // fait en sorte que la pomme soit ramassée
-            apple.collect(); // TODO: complete this and apple.collect()
+        public void interactWith(Collectable collectable){
+            collectable.collect();
         }
+        @Override
+        public void interactWith(Torch torche){
+            torche.switchState();
+        }
+        @Override
+        public void interactWith(Lever lever){
+            lever.switchState();
+        }
+
+        @Override
+        public void interactWith(PressureSwitch bouton){
+        	if(isMoving()&&getCurrentMainCellCoordinates().equals(bouton.getCurrentMainCellCoordinates())) {
+                bouton.switchState();
+        	}
+        }
+        @Override
+        public void interactWith(PressurePlate plate){
+            plate.switchState();
+        }
+    
+    
+    
     }
+    
+    
+    
+    
+    
+    
 }

@@ -21,4 +21,5 @@ public interface Signal {
     default boolean is(Signal other, float t){
         return Math.abs(this.getIntensity(t) - other.getIntensity(t)) < EPSILON;
     }
+
 }

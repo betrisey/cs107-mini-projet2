@@ -3,8 +3,13 @@ package ch.epfl.cs107.play.game.enigme.handler;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.enigme.EnigmeBehavior;
 import ch.epfl.cs107.play.game.enigme.actor.Apple;
+import ch.epfl.cs107.play.game.enigme.actor.Collectable;
 import ch.epfl.cs107.play.game.enigme.actor.Door;
 import ch.epfl.cs107.play.game.enigme.actor.EnigmePlayer;
+import ch.epfl.cs107.play.game.enigme.actor.Lever;
+import ch.epfl.cs107.play.game.enigme.actor.PressurePlate;
+import ch.epfl.cs107.play.game.enigme.actor.PressureSwitch;
+import ch.epfl.cs107.play.game.enigme.actor.Torch;
 
 public interface EnigmeInteractionVisitor extends AreaInteractionVisitor {
     /**
@@ -26,4 +31,23 @@ public interface EnigmeInteractionVisitor extends AreaInteractionVisitor {
     default void interactWith(EnigmePlayer player){
         // by default the interaction is empty
     }
+
+	default void interactWith(Collectable collectable) {
+	
+	}
+
+	default void interactWith(Torch torche) {
+	}
+
+	default void interactWith(Lever lever) {
+	
+	}
+
+	default void interactWith(PressureSwitch bouton) {
+		
+	}
+
+	default void interactWith(PressurePlate plate) {
+		
+	}
 }
