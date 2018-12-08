@@ -48,7 +48,7 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         return isPassingDoor;
     }
 
-    public void setIsPassingDoor(Door door) {
+    private void setIsPassingDoor(Door door) {
         this.passedDoor = door;
         isPassingDoor = true;
     }

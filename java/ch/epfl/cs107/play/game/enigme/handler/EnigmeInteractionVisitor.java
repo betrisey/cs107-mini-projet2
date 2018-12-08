@@ -14,7 +14,7 @@ public interface EnigmeInteractionVisitor extends AreaInteractionVisitor {
 
 	default void interactWith(Collectable collectable) { }
 
-	default void interactWith(Torch torche) { }
+	default void interactWith(Torch torch) { }
 
 	default void interactWith(Lever lever) { }
 

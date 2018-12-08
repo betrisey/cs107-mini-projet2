@@ -45,11 +45,6 @@ public abstract class Switchable extends AreaEntity implements Logic {
     }
 
     @Override
-    public void acceptInteraction(AreaInteractionVisitor v) {
-        ((EnigmeInteractionVisitor) v).interactWith(this);
-    }
-
-    @Override
     public boolean isOn() {
         return isOn;
     }
