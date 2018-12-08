@@ -21,7 +21,7 @@ public abstract class Collectable extends AreaEntity {
     }
 
     public void collect() {
-        getOwnerArea().unregisterActor(this); // TODO should we keep it and just hide it?
+        getOwnerArea().unregisterActor(this);
 
         isCollected = true;
     }

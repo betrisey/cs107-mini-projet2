@@ -1,7 +1,6 @@
 package ch.epfl.cs107.play;
 
 import ch.epfl.cs107.play.game.Game;
-import ch.epfl.cs107.play.game.enigme.Demo2;
 import ch.epfl.cs107.play.game.enigme.Enigme;
 import ch.epfl.cs107.play.io.DefaultFileSystem;
 import ch.epfl.cs107.play.io.FileSystem;
@@ -20,7 +19,7 @@ public class Play {
     private static final float ONE_SEC = 1E9f;
 
 	/**
-	 * Main entry point.¶
+	 * Main entry point.
 	 * @param args (Array of String): ignored
 	 */
 	public static void main(String[] args) {

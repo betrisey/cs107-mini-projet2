@@ -53,7 +53,6 @@ public abstract class Area implements Playable {
      * @param forced (Boolean): if true, the method ends
      */
     private void addActor(Actor a, boolean forced) {
-        // TODO implements me #PROJECT #TUTO, page 17
         // Here decisions at the area level to decide if an actor
         // must be added or not
         boolean errorOccured = !actors.add(a);

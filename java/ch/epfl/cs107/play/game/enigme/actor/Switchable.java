@@ -17,9 +17,6 @@ public abstract class Switchable extends AreaEntity implements Logic {
     private boolean isOn;
     private Sprite onSprite, offSprite;
 
-    private boolean canBeSwitched;
-    private boolean hasBeenInteractedLastUpdate;
-
     public Switchable(Area area, Orientation orientation, DiscreteCoordinates position,
                       String onSpriteName, String offSpriteName, boolean initialState) {
         super(area, orientation, position);
@@ -28,18 +25,10 @@ public abstract class Switchable extends AreaEntity implements Logic {
         this.offSprite = new Sprite(offSpriteName, 1, 1, this);
 
         this.isOn = initialState;
-
-        canBeSwitched = true;
-        hasBeenInteractedLastUpdate = false;
     }
 
     public void switchState() {
-        // It can be switched only if it hasn't been during last update
-        if (canBeSwitched) {
-            this.isOn = !this.isOn;
-            canBeSwitched = false;
-        }
-        hasBeenInteractedLastUpdate = true;
+        this.isOn = !this.isOn;
     }
 
     @Override
@@ -58,13 +47,5 @@ public abstract class Switchable extends AreaEntity implements Logic {
     @Override
     public boolean isOn() {
         return isOn;
-    }
-
-    @Override
-    public void update(float deltaTime) {
-        // It can be switched only if it hasn't been during last update
-        if (!hasBeenInteractedLastUpdate) canBeSwitched = true;
-        // Reset
-        hasBeenInteractedLastUpdate = false;
     }
 }

@@ -48,7 +48,6 @@ public abstract class MovableAreaEntity extends AreaEntity {
   
     protected  boolean move(int framesForMove){
         if (!isMoving || getCurrentMainCellCoordinates().equals(targetMainCellCoordinates)) {
-            // TODO : check before calling leave/enter? 4.7.4
             if (getOwnerArea().leaveAreaCells(this, getLeavingCells()) &&
                     getOwnerArea().enterAreaCells(this, getEnteringCells())) {
                 framesForCurrentMove = Math.max(framesForMove, 1);
@@ -86,7 +85,7 @@ public abstract class MovableAreaEntity extends AreaEntity {
         return getOrientation().toVector().mul(framesForCurrentMove);
     }
 
-    // TODO : Ces implémentations simples peuvent s’avérer inadaptées lorsque plusieurs acteurs voisins se déplacent
+    // Ces implémentations simples peuvent s’avérer inadaptées lorsque plusieurs acteurs voisins se déplacent
     // (chevauchement des cellules quittées/investies). Libre à vous par la suite d’affiner ces méthodes
     // pour mieux répondre à vos besoins.
     protected final List<DiscreteCoordinates> getLeavingCells() {

@@ -55,7 +55,7 @@ public class Enigme extends AreaGame {
             player.leaveArea(getCurrentArea());
 
             Door door = player.passedDoor();
-            Area area = setCurrentArea(door.getDestinationArea(), true); // TODO Should we reset the level?
+            Area area = setCurrentArea(door.getDestinationArea(), false); // forceBegin=false to resume
             player.enterArea(area, door.getDestinationCoordinates());
             area.setViewCandidate(player);
         }

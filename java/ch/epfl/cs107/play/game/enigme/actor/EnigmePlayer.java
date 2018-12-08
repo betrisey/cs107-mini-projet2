@@ -5,6 +5,7 @@ import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.enigme.handler.EnigmeInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
@@ -25,7 +26,8 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
     public EnigmePlayer(Area area, Orientation orientation, DiscreteCoordinates coordinates) {
         super(area, orientation, coordinates);
         isPassingDoor = false;
-        ghostSprite = new Sprite("ghost.1", 1, 1, this);
+        // depth correction to make sure the player is on top and not under some other objects
+        ghostSprite = new Sprite("ghost.1", 1, 1, this, null, Vector.ZERO, 1.0f, 100);
         handler = new EnigmePlayerHandler();
     }
 
@@ -109,7 +111,7 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
 
     @Override
     public boolean wantsViewInteraction() {
-        return getOwnerArea().getKeyboard().get(Keyboard.L).isDown();
+        return getOwnerArea().getKeyboard().get(Keyboard.L).isPressed();
     }
 
     @Override

@@ -33,7 +33,7 @@ public abstract class AreaBehavior
         behaviorMap = window.getImage(ResourcePath.getBehaviors(fileName), null, false);
         width = behaviorMap.getWidth();
         height = behaviorMap.getHeight();
-        cells = new Cell[width][height]; // TODO: width lignes et height colonnes ? Inverse
+        cells = new Cell[width][height];
     }
 
     public int getWidth() {
