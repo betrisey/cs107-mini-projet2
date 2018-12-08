@@ -87,8 +87,8 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         super.update(deltaTime);
 
         for (Orientation orientation : Orientation.values()) {
-            boolean keyPressed = getOwnerArea().getKeyboard().get(orientation.getKeyCode()).isDown();
-            if (keyPressed) {
+            boolean keyDown = getOwnerArea().getKeyboard().get(orientation.getKeyCode()).isDown();
+            if (keyDown) {
                 if (getOrientation() == orientation)
                     move(ANIMATION_DURATION);
                 else
@@ -148,10 +148,14 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         }
 
         @Override
-        public void interactWith(PressureSwitch bouton){
-        	if(isMoving() && getCurrentMainCellCoordinates().equals(getTargetMainCellCoordinates())) {
-                bouton.switchState();
-        	}
+        public void interactWith(PressureSwitch pressureSwitch){
+            // Cette méthode comme décrite dans la consigne pose problème quand on passe sur la case sans l'arrêter,
+            // l'état ne change pas car getTargetMainCell a déjà la cellule suivante lorsque interactWith est appelé
+            /*if(isMoving() && getCurrentMainCellCoordinates().equals(getTargetMainCellCoordinates())) {
+                pressureSwitch.switchState();
+        	}*/
+            // A la place, c'est PressureSwitch qui va laisser changer l'état qu'une seule fois
+            pressureSwitch.switchState();
         }
 
         @Override
