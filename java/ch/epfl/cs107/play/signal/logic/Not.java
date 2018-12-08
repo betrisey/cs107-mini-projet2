@@ -1,18 +1,14 @@
 package ch.epfl.cs107.play.signal.logic;
 
 public class Not extends LogicSignal {
-	private Logic s;
+    private Logic s;
 
-	public Not(Logic s) {
-		this.s = s;
-	}
+    public Not(Logic s) {
+        this.s = s;
+    }
 
-	@Override
-	public boolean isOn() {
-		if (s != null && !s.isOn()) {
-			return true;
-		}
-		return false;
-	}
-
+    @Override
+    public boolean isOn() {
+        return s != null && !s.isOn();
+    }
 }

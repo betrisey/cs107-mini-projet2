@@ -12,7 +12,7 @@ public class Level3 extends EnigmeArea {
     public String getTitle() {
         return "Level3";
     }
-    
+
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         super.begin(window, fileSystem);

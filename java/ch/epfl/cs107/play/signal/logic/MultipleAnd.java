@@ -1,23 +1,19 @@
 package ch.epfl.cs107.play.signal.logic;
 
-public class MultipleAnd extends LogicSignal{
-     
-	private Logic[] signaux;
-	
-	public MultipleAnd(Logic... signaux) {
-		this.signaux=signaux;
-	}
-	@Override
-	public boolean isOn() {
-		if(signaux==null) {
-			return false;
-		}
-		for(Logic signal : signaux ) {
-			if(signal==null||!signal.isOn()) {
-				return false;
-			}
-		}
-		return true;
-	}
+public class MultipleAnd extends LogicSignal {
+    private Logic[] signals;
 
+    public MultipleAnd(Logic... signals) {
+        this.signals = signals;
+    }
+
+    @Override
+    public boolean isOn() {
+        if (signals == null) return false;
+
+        for (Logic s : signals)
+            if (s == null || !s.isOn()) return false;
+
+        return true;
+    }
 }

@@ -109,7 +109,7 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
 
     @Override
     public boolean wantsViewInteraction() {
-        return getOwnerArea().getKeyboard().get(Keyboard.L).isPressed();
+        return getOwnerArea().getKeyboard().get(Keyboard.L).isDown();
     }
 
     @Override
@@ -136,10 +136,12 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         public void interactWith(Collectable collectable){
             collectable.collect();
         }
+
         @Override
-        public void interactWith(Torch torche){
-            torche.switchState();
+        public void interactWith(Torch torch){
+            torch.switchState();
         }
+
         @Override
         public void interactWith(Lever lever){
             lever.switchState();
@@ -147,22 +149,14 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
 
         @Override
         public void interactWith(PressureSwitch bouton){
-        	if(isMoving()&&getCurrentMainCellCoordinates().equals(getTargetMainCellCoordinates())) {
+        	if(isMoving() && getCurrentMainCellCoordinates().equals(getTargetMainCellCoordinates())) {
                 bouton.switchState();
         	}
         }
+
         @Override
         public void interactWith(PressurePlate plate){
             plate.switchState();
         }
-    
-    
-    
     }
-    
-    
-    
-    
-    
-    
 }

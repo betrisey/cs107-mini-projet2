@@ -10,24 +10,20 @@ public class PressureSwitch extends Switchable {
 
 	public PressureSwitch(Area area, Orientation orientation, DiscreteCoordinates position) {
 		super(area, orientation, position, "GroundLightOn", "GroundLightOff", false);
-
 	}
 
 	@Override
 	public boolean takeCellSpace() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isViewInteractable() {
-
 		return false;
 	}
 
 	@Override
 	public boolean isCellInteractable() {
-
 		return true;
 	}
 
