@@ -8,8 +8,8 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 
 public class Torch extends Switchable {
     public Torch(Area area, Orientation orientation, DiscreteCoordinates position, boolean initialState) {
-        super(area, orientation, position, "torch.ground.on.1", "torch.ground.off",
-                initialState);
+        super(area, orientation, position, new String[]{"torch.ground.on.1", "torch.ground.on.2"},
+                new String[]{"torch.ground.off"}, initialState);
     }
 
     @Override

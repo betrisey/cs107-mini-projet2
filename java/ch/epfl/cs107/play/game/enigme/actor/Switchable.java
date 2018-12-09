@@ -1,6 +1,7 @@
 package ch.epfl.cs107.play.game.enigme.actor;
 
 import ch.epfl.cs107.play.game.areagame.Area;
+import ch.epfl.cs107.play.game.areagame.actor.AnimatedSprite;
 import ch.epfl.cs107.play.game.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
@@ -15,16 +16,21 @@ import java.util.List;
 
 public abstract class Switchable extends AreaEntity implements Logic {
     private boolean isOn;
-    private Sprite onSprite, offSprite;
+    private AnimatedSprite onAnimSprite, offAnimSprite;
+
+    public Switchable(Area area, Orientation orientation, DiscreteCoordinates position,
+                      String[] onSpriteNames, String[] offSpriteNames, boolean initialState) {
+        super(area, orientation, position);
+
+        this.onAnimSprite = new AnimatedSprite(0.3f, this, onSpriteNames);
+        this.offAnimSprite = new AnimatedSprite(0.3f, this, offSpriteNames);
+
+        this.isOn = initialState;
+    }
 
     public Switchable(Area area, Orientation orientation, DiscreteCoordinates position,
                       String onSpriteName, String offSpriteName, boolean initialState) {
-        super(area, orientation, position);
-
-        this.onSprite = new Sprite(onSpriteName, 1, 1, this);
-        this.offSprite = new Sprite(offSpriteName, 1, 1, this);
-
-        this.isOn = initialState;
+        this(area, orientation, position, new String[]{onSpriteName}, new String[]{offSpriteName}, initialState);
     }
 
     public void switchState() {
@@ -34,9 +40,15 @@ public abstract class Switchable extends AreaEntity implements Logic {
     @Override
     public void draw(Canvas canvas) {
         if (isOn())
-            onSprite.draw(canvas);
+            onAnimSprite.draw(canvas);
         else
-            offSprite.draw(canvas);
+            offAnimSprite.draw(canvas);
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        onAnimSprite.update(deltaTime);
+        offAnimSprite.update(deltaTime);
     }
 
     @Override

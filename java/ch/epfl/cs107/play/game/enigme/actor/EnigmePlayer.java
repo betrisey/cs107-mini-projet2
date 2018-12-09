@@ -16,7 +16,7 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
     private boolean isPassingDoor;
     private Door passedDoor;
 
-    private Sprite ghostSprite;
+    private AnimatedSprite playerSprites;
 
     private final EnigmePlayerHandler handler;
 
@@ -27,7 +27,10 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         super(area, orientation, coordinates);
         isPassingDoor = false;
         // depth correction to make sure the player is on top and not under some other objects
-        ghostSprite = new Sprite("ghost.1", 1, 1, this, null, Vector.ZERO, 1.0f, 100);
+        //ghostSprite = new Sprite("ghost.1", 1, 1, this, null, Vector.ZERO, 1.0f, 100);
+
+        playerSprites = new AnimatedSprite("max.new.1", 0.5f, 0.65625f, 16, 21, 0.3f, true, this);
+
         handler = new EnigmePlayerHandler();
     }
 
@@ -61,7 +64,7 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
 
     @Override
     public void draw(Canvas canvas) {
-        ghostSprite.draw(canvas);
+        playerSprites.draw(canvas);
     }
 
     @Override
@@ -91,11 +94,20 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         for (Orientation orientation : Orientation.values()) {
             boolean keyDown = getOwnerArea().getKeyboard().get(orientation.getKeyCode()).isDown();
             if (keyDown) {
-                if (getOrientation() == orientation)
+                if (getOrientation() == orientation) {
                     move(ANIMATION_DURATION);
-                else
+                }
+                else {
                     setOrientation(orientation);
+                    playerSprites.setOrientation(getOrientation());
+                }
             }
+        }
+
+        if (isMoving()) {
+            playerSprites.update(deltaTime);
+        } else {
+            playerSprites.setSpriteIndex(0);
         }
     }
 
