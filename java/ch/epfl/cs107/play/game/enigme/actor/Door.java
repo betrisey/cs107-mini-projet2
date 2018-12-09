@@ -11,7 +11,7 @@ import ch.epfl.cs107.play.window.Canvas;
 import java.util.Arrays;
 import java.util.List;
 
-public class Door extends AreaEntity {
+public class Door extends AreaEntity implements Destination {
     private String destinationArea;
     private DiscreteCoordinates destinationCoordinates;
     private List<DiscreteCoordinates> currentCells;

@@ -113,7 +113,6 @@ public abstract class AreaBehavior
 
         private void leave(Interactable entity) {
             if (canLeave(entity)) {
-            	interactables.remove(entity);
                 interactables.remove(entity);
             }
         }

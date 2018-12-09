@@ -14,9 +14,12 @@ import java.util.List;
 
 public class EnigmePlayer extends MovableAreaEntity implements Interactor {
     private boolean isPassingDoor;
-    private Door passedDoor;
+    private Destination passedDoor;
 
     private AnimatedSprite playerSprites;
+
+    private Portal orangePortal, bluePortal;
+    private boolean placeingOrange, placingBlue;
 
     private final EnigmePlayerHandler handler;
 
@@ -26,8 +29,14 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
     public EnigmePlayer(Area area, Orientation orientation, DiscreteCoordinates coordinates) {
         super(area, orientation, coordinates);
         isPassingDoor = false;
+        // depth correction to make sure the player is always displayed on top
+        float depthCorrection = 100;
         playerSprites = new AnimatedSprite("max.new.1", 0.5f, 0.65625f, 16, 21,
-                4, 0.3f, true, this, new Vector(0.25f, 0.32f));
+                4, 0.3f, true, this, new Vector(0.25f, 0.32f), depthCorrection);
+
+        Portal[] portals = Portal.createPortalPair();
+        orangePortal = portals[0];
+        bluePortal = portals[1];
 
         handler = new EnigmePlayerHandler();
     }
@@ -37,6 +46,8 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         setOwnerArea(area);
 
         setCurrentPosition(position.toVector());
+
+        area.setViewCandidate(this);
 
         resetMotion();
         isPassingDoor = false;
@@ -51,12 +62,12 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         return isPassingDoor;
     }
 
-    private void setIsPassingDoor(Door door) {
+    public void setIsPassingDoor(Destination door) {
         this.passedDoor = door;
         isPassingDoor = true;
     }
 
-    public Door passedDoor() {
+    public Destination passedDoor() {
         return passedDoor;
     }
 
@@ -97,7 +108,6 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
                 }
                 else {
                     setOrientation(orientation);
-                    playerSprites.setOrientation(getOrientation());
                 }
             }
         }
@@ -107,6 +117,29 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         } else {
             playerSprites.setSpriteIndex(0);
         }
+
+        // Place the portal if the J key has been pressed or if we tried to place it during the last update
+        // and it didn't succeeded
+        if (getOwnerArea().getKeyboard().get(Keyboard.J).isPressed() || placeingOrange) {
+            if (orangePortal.place(getOwnerArea(), getFieldOfViewCells().get(0), getOrientation().opposite())) {
+                placeingOrange = false;
+            } else {
+                placeingOrange = true;
+            }
+        }
+        if (getOwnerArea().getKeyboard().get(Keyboard.K).isPressed() || placingBlue) {
+            if (bluePortal.place(getOwnerArea(), getFieldOfViewCells().get(0), getOrientation().opposite())) {
+                placingBlue = false;
+            } else {
+                placingBlue = true;
+            }
+        }
+    }
+
+    @Override
+    public void setOrientation(Orientation orientation) {
+        super.setOrientation(orientation);
+        playerSprites.setOrientation(getOrientation());
     }
 
     @Override
@@ -152,6 +185,11 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         @Override
         public void interactWith(Switchable switchable){
             switchable.switchState();
+        }
+
+        @Override
+        public void interactWith(Portal portal){
+            portal.teleport(EnigmePlayer.this);
         }
     }
 }

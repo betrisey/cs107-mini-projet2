@@ -61,7 +61,7 @@ public class EnigmeBehavior extends AreaBehavior {
 
         @Override
         protected boolean canEnter(Interactable entity) {
-        	if (entity.takeCellSpace()) {
+        	if (entity.takeCellSpace() || entity.needEmptySpace()) {
         		for (Interactable interactable : interactables) {
 					if (interactable.takeCellSpace()) {
 						return false;

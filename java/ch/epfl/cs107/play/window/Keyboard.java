@@ -11,6 +11,7 @@ public interface Keyboard {
     int B = 66;
     int D = 68;
     int I = 73;
+    int J = 74;
     int K = 75;
     int L = 76;
     int S = 83;

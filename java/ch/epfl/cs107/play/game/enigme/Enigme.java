@@ -3,8 +3,8 @@ package ch.epfl.cs107.play.game.enigme;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
-import ch.epfl.cs107.play.game.enigme.actor.Door;
 import ch.epfl.cs107.play.game.enigme.actor.EnigmePlayer;
+import ch.epfl.cs107.play.game.enigme.actor.Destination;
 import ch.epfl.cs107.play.game.enigme.area.*;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -42,7 +42,6 @@ public class Enigme extends AreaGame {
         setCurrentArea(areas[0].getTitle(), false);
         player = new EnigmePlayer(areas[0], Orientation.DOWN, startPosition);
         player.enterArea(areas[0], startPosition);
-        areas[0].setViewCandidate(player);
 
         return true;
     }
@@ -52,12 +51,14 @@ public class Enigme extends AreaGame {
         super.update(deltaTime);
 
         if (player.isPassingDoor()) {
+            Destination destination = player.passedDoor();
+
             player.leaveArea(getCurrentArea());
 
-            Door door = player.passedDoor();
-            Area area = setCurrentArea(door.getDestinationArea(), false); // forceBegin=false to resume
-            player.enterArea(area, door.getDestinationCoordinates());
-            area.setViewCandidate(player);
+            Area area = setCurrentArea(destination.getDestinationArea(), false); // forceBegin=false to resume
+            player.enterArea(area, destination.getDestinationCoordinates());
+            if (destination.getDestinationOrientation() != null)
+                player.setOrientation(destination.getDestinationOrientation());
         }
     }
 

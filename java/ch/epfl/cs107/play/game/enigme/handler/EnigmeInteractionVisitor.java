@@ -15,4 +15,6 @@ public interface EnigmeInteractionVisitor extends AreaInteractionVisitor {
     default void interactWith(Collectable collectable) { }
 
     default void interactWith(Switchable switchable) { }
+
+    default void interactWith(Portal portal) { }
 }

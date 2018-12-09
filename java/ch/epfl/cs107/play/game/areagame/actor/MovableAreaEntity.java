@@ -97,7 +97,7 @@ public abstract class MovableAreaEntity extends AreaEntity {
     }
 
     @Override
-    protected void setOrientation(Orientation orientation) {
+    public void setOrientation(Orientation orientation) {
         if (!isMoving) {
             super.setOrientation(orientation);
         }

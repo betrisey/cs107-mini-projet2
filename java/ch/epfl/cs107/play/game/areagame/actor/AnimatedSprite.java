@@ -48,7 +48,7 @@ public class AnimatedSprite implements Graphics {
      * @param anchor (Vector): image anchor, not null
      */
     public AnimatedSprite(String name, float width, float height, int pixelWidth, int pixelHeight, int spritePerOrientation,
-                          float timePerSprite, boolean orientable, Positionable parent, Vector anchor) {
+                          float timePerSprite, boolean orientable, Positionable parent, Vector anchor, float depthCorrection) {
         this(timePerSprite, orientable);
         int orientationCount = orientable ? Orientation.values().length : 1;
         sprites = new Sprite[orientationCount][spritePerOrientation];
@@ -56,7 +56,8 @@ public class AnimatedSprite implements Graphics {
         for (int o = 0; o < orientationCount; o++) {
             for (int i = 0; i < spritePerOrientation; i++) {
                 sprites[o][i] = new Sprite(name, width, height, parent,
-                        new RegionOfInterest(o * pixelWidth, i * pixelHeight, pixelWidth, pixelHeight), anchor);
+                        new RegionOfInterest(o * pixelWidth, i * pixelHeight, pixelWidth, pixelHeight),
+                        anchor, 1.0f, depthCorrection);
             }
         }
     }

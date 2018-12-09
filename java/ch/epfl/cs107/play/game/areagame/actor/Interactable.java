@@ -16,6 +16,12 @@ public interface Interactable {
 
     boolean takeCellSpace();
 
+    // We have to do the distinction between takeCellSpace and needEmptySpace for the Portal
+    // is doesn't take cell space but it cannot be placed on an occupied cell
+    default boolean needEmptySpace() {
+        return takeCellSpace();
+    }
+
     boolean isViewInteractable();
     boolean isCellInteractable();
 
