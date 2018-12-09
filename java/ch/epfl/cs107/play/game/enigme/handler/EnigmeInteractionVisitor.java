@@ -12,13 +12,7 @@ public interface EnigmeInteractionVisitor extends AreaInteractionVisitor {
 
     default void interactWith(EnigmePlayer player) { }
 
-	default void interactWith(Collectable collectable) { }
+    default void interactWith(Collectable collectable) { }
 
-	default void interactWith(Torch torch) { }
-
-	default void interactWith(Lever lever) { }
-
-	default void interactWith(PressureSwitch bouton) { }
-
-	default void interactWith(PressurePlate plate) { }
+    default void interactWith(Switchable switchable) { }
 }

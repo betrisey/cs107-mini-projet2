@@ -26,10 +26,8 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
     public EnigmePlayer(Area area, Orientation orientation, DiscreteCoordinates coordinates) {
         super(area, orientation, coordinates);
         isPassingDoor = false;
-        // depth correction to make sure the player is on top and not under some other objects
-        //ghostSprite = new Sprite("ghost.1", 1, 1, this, null, Vector.ZERO, 1.0f, 100);
-
-        playerSprites = new AnimatedSprite("max.new.1", 0.5f, 0.65625f, 16, 21, 0.3f, true, this);
+        playerSprites = new AnimatedSprite("max.new.1", 0.5f, 0.65625f, 16, 21,
+                4, 0.3f, true, this, new Vector(0.25f, 0.32f));
 
         handler = new EnigmePlayerHandler();
     }
@@ -152,29 +150,8 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         }
 
         @Override
-        public void interactWith(Torch torch){
-            torch.switchState();
-        }
-
-        @Override
-        public void interactWith(Lever lever){
-            lever.switchState();
-        }
-
-        @Override
-        public void interactWith(PressureSwitch pressureSwitch){
-            // Cette méthode comme décrite dans la consigne pose problème quand on passe sur la case sans l'arrêter,
-            // l'état ne change pas car getTargetMainCell a déjà la cellule suivante lorsque interactWith est appelé
-            /*if(isMoving() && getCurrentMainCellCoordinates().equals(getTargetMainCellCoordinates())) {
-                pressureSwitch.switchState();
-        	}*/
-            // A la place, c'est PressureSwitch qui va laisser changer l'état qu'une seule fois
-            pressureSwitch.switchState();
-        }
-
-        @Override
-        public void interactWith(PressurePlate plate){
-            plate.switchState();
+        public void interactWith(Switchable switchable){
+            switchable.switchState();
         }
     }
 }
