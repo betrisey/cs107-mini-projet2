@@ -4,9 +4,11 @@ import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Sprite;
+import ch.epfl.cs107.play.game.areagame.actor.Teleportable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.enigme.handler.EnigmeInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.Collections;
@@ -40,7 +42,7 @@ public class Portal extends AreaEntity {
         // The portal hasn't been placed yet
         super(null, Orientation.DOWN, DiscreteCoordinates.ORIGIN);
         isPlaced = false;
-        sprite = new Sprite(spriteName, 1, 1, this);
+        sprite = new Sprite(spriteName, 1, 1, this, null, Vector.ZERO, 1, -100);
     }
 
     @Override
@@ -82,11 +84,12 @@ public class Portal extends AreaEntity {
 
     /**
      * Teleports the player using the same mechanism as the Doors
-     * @param player player requesting the teleportation
+     * @param teleportable teleportable requesting the teleportation
      */
-    public void teleport(EnigmePlayer player) {
+    public void teleport(Teleportable teleportable) {
         if (linkedPortal.isPlaced) {
-            player.setIsPassingDoor(linkedPortal.getDestinationCoordinates(player));
+            //teleportable.beforeTeleport();
+            teleportable.setDestination(linkedPortal.getDestinationCoordinates(teleportable));
         } else {
             System.out.println("The linked portal hasn't been placed yet");
             // TODO use dialog
@@ -127,15 +130,14 @@ public class Portal extends AreaEntity {
      * Destination coordinates to push the player out of the portal
      * @return where the player should be teleported
      */
-    private PortalDestination getDestinationCoordinates(EnigmePlayer player) {
+    private PortalDestination getDestinationCoordinates(Teleportable player) {
         // We first check if the cell in the desired orientation is available
         // otherwise we check for the other surrounding cells
         Orientation destinationOrientation = getOrientation();
         for (int i = 0; i < Orientation.values().length; i++) {
             DiscreteCoordinates destination = getCurrentMainCellCoordinates().jump(destinationOrientation.toVector());
-
+            player.setOrientation(destinationOrientation, true);
             if (getOwnerArea().getAreaBehavior().canEnter(player, Collections.singletonList(destination))) {
-                player.setOrientation(destinationOrientation);
                 return new PortalDestination(getOwnerArea().getTitle(), destination, destinationOrientation);
             }
 

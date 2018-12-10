@@ -4,6 +4,7 @@ import ch.epfl.cs107.play.game.Playable;
 import ch.epfl.cs107.play.game.actor.Actor;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Interactor;
+import ch.epfl.cs107.play.game.areagame.actor.Teleportable;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Transform;
@@ -29,6 +30,8 @@ public abstract class Area implements Playable {
 
     private List<Actor> actors;
     private List<Interactor> interactors;
+
+    private List<Teleportable> teleportables;
 
     private List<Actor> registeredActors;
     private List<Actor> unregisteredActors;
@@ -56,11 +59,13 @@ public abstract class Area implements Playable {
         // Here decisions at the area level to decide if an actor
         // must be added or not
         boolean errorOccured = !actors.add(a);
-        if(a instanceof Interactable)
+        if (a instanceof Interactable)
             errorOccured = errorOccured || !enterAreaCells(((Interactable) a), ((Interactable) a).getCurrentCells());
-        if(a instanceof Interactor)
+        if (a instanceof Interactor)
             errorOccured = errorOccured || !interactors.add((Interactor) a);
-        if(errorOccured && !forced) {
+        if (a instanceof Teleportable)
+            errorOccured = errorOccured || !teleportables.add((Teleportable) a);
+        if (errorOccured && !forced) {
             System.out.println("Actor " + a + " cannot be completely added, so remove it from where it was");
             removeActor(a, true);
         }
@@ -73,13 +78,15 @@ public abstract class Area implements Playable {
      */
     private void removeActor(Actor a, boolean forced){
         boolean errorOccured = !actors.remove(a) ;
-        if(a instanceof Interactable)
+        if (a instanceof Interactable)
             errorOccured = errorOccured || !leaveAreaCells(((Interactable) a), ((Interactable) a).getCurrentCells());
-        if(a instanceof Interactor)
+        if (a instanceof Interactor)
             errorOccured = errorOccured || !interactors.remove(a);
-        if(errorOccured && !forced) {
+        if (a instanceof Teleportable)
+            errorOccured = errorOccured || !teleportables.remove(a);
+        if (errorOccured && !forced) {
             System.out.println("Actor " + a + " cannot be completely removed, so add it where it was");
-            addActor(a, true); // TODO : check if we should add it back
+            addActor(a, true);
         }
     }
 
@@ -130,7 +137,8 @@ public abstract class Area implements Playable {
         this.fileSystem = fileSystem;
 
         actors = new LinkedList<>();
-        interactors=new LinkedList<>();
+        interactors = new LinkedList<>();
+        teleportables = new LinkedList<>();
 
         registeredActors = new LinkedList<>();
         unregisteredActors = new LinkedList<>();
@@ -254,5 +262,9 @@ public abstract class Area implements Playable {
             return true;
         }
         return false;
+    }
+
+    public List<Teleportable> getTeleportables() {
+        return teleportables;
     }
 }

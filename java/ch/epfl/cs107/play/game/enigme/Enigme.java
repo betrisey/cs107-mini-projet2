@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.enigme;
 import ch.epfl.cs107.play.game.areagame.Area;
 import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
+import ch.epfl.cs107.play.game.areagame.actor.Teleportable;
 import ch.epfl.cs107.play.game.enigme.actor.EnigmePlayer;
 import ch.epfl.cs107.play.game.enigme.actor.Destination;
 import ch.epfl.cs107.play.game.enigme.area.*;
@@ -50,15 +51,39 @@ public class Enigme extends AreaGame {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        if (player.isPassingDoor()) {
-            Destination destination = player.passedDoor();
+        for (Teleportable teleportable : getCurrentArea().getTeleportables()) {
+            Destination destination = teleportable.getDestination();
+            if (destination != null) {
+                Area destinationArea = areas.get(destination.getDestinationArea());
+                if (destinationArea != null) {
+                    if (teleportable instanceof EnigmePlayer) {
+                        EnigmePlayer p = ((EnigmePlayer) teleportable);
+                        p.leaveArea(getCurrentArea());
+                        setCurrentArea(destination.getDestinationArea(), false); // forceBegin=false to resume
+                        p.enterArea(destinationArea, destination.getDestinationCoordinates());
+                    } else {
+                        if (destination.getDestinationArea().equals(getCurrentArea().getTitle())) {
+                            teleportable.setPosition(destination.getDestinationCoordinates());
+                        } else {
+                            getCurrentArea().unregisterActor(teleportable);
 
-            player.leaveArea(getCurrentArea());
+                            // To make sure the destination area has been initialized
+                            String startAreaTitle = getCurrentArea().getTitle();
+                            setCurrentArea(destination.getDestinationArea(), false); // forceBegin=false to resume
 
-            Area area = setCurrentArea(destination.getDestinationArea(), false); // forceBegin=false to resume
-            player.enterArea(area, destination.getDestinationCoordinates());
-            if (destination.getDestinationOrientation() != null)
-                player.setOrientation(destination.getDestinationOrientation());
+                            teleportable.setPosition(destination.getDestinationCoordinates());
+                            destinationArea.registerActor(teleportable);
+                            teleportable.setOwnerArea(destinationArea);
+
+                            setCurrentArea(startAreaTitle, false);
+                        }
+                    }
+
+                    if (destination.getDestinationOrientation() != null)
+                        teleportable.setOrientation(destination.getDestinationOrientation(), true);
+                }
+                teleportable.setDestination(null);
+            }
         }
     }
 

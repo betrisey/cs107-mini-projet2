@@ -46,9 +46,11 @@ public abstract class MovableAreaEntity extends AreaEntity {
      * @return (boolean): returns true if motion can occur
      */
   
-    protected  boolean move(int framesForMove){
+    protected boolean move(int framesForMove){
         if (!isMoving || getCurrentMainCellCoordinates().equals(targetMainCellCoordinates)) {
-            if (getOwnerArea().leaveAreaCells(this, getLeavingCells()) &&
+            if (getOwnerArea().getAreaBehavior().canLeave(this, getLeavingCells()) &&
+                    getOwnerArea().getAreaBehavior().canEnter(this, getEnteringCells()) &&
+                    getOwnerArea().leaveAreaCells(this, getLeavingCells()) &&
                     getOwnerArea().enterAreaCells(this, getEnteringCells())) {
                 framesForCurrentMove = Math.max(framesForMove, 1);
 
@@ -98,7 +100,11 @@ public abstract class MovableAreaEntity extends AreaEntity {
 
     @Override
     public void setOrientation(Orientation orientation) {
-        if (!isMoving) {
+        setOrientation(orientation, false);
+    }
+
+    public void setOrientation(Orientation orientation, boolean force) {
+        if (!isMoving || force) {
             super.setOrientation(orientation);
         }
     }

@@ -12,9 +12,8 @@ import ch.epfl.cs107.play.window.Keyboard;
 import java.util.Collections;
 import java.util.List;
 
-public class EnigmePlayer extends MovableAreaEntity implements Interactor {
-    private boolean isPassingDoor;
-    private Destination passedDoor;
+public class EnigmePlayer extends MovableAreaEntity implements Interactor, Teleportable {
+    private Destination destination;
 
     private AnimatedSprite playerSprites;
 
@@ -28,11 +27,11 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
 
     public EnigmePlayer(Area area, Orientation orientation, DiscreteCoordinates coordinates) {
         super(area, orientation, coordinates);
-        isPassingDoor = false;
+
         // depth correction to make sure the player is always displayed on top
         float depthCorrection = 100;
-        playerSprites = new AnimatedSprite("max.new.1", 0.5f, 0.65625f, 16, 21,
-                4, 0.3f, true, this, new Vector(0.25f, 0.32f), depthCorrection);
+        playerSprites = new AnimatedSprite("max.new.1", 1, 1, 16, 21,
+                4, 0.3f, true, this, Vector.ZERO, depthCorrection);
 
         Portal[] portals = Portal.createPortalPair();
         orangePortal = portals[0];
@@ -50,25 +49,30 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         area.setViewCandidate(this);
 
         resetMotion();
-        isPassingDoor = false;
     }
 
     public void leaveArea(Area area) {
         area.unregisterActor(this);
-        isPassingDoor = false;
     }
 
-    public boolean isPassingDoor() {
-        return isPassingDoor;
+    @Override
+    public void setDestination(Destination destination) {
+        this.destination = destination;
     }
 
-    public void setIsPassingDoor(Destination door) {
-        this.passedDoor = door;
-        isPassingDoor = true;
+    @Override
+    public Destination getDestination() {
+        return destination;
     }
 
-    public Destination passedDoor() {
-        return passedDoor;
+    @Override
+    public void setPosition(DiscreteCoordinates coordinates) {
+        super.setCurrentPosition(coordinates.toVector());
+    }
+
+    @Override
+    public void beforeTeleport() {
+        resetMotion();
     }
 
     @Override
@@ -137,9 +141,14 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
     }
 
     @Override
-    public void setOrientation(Orientation orientation) {
-        super.setOrientation(orientation);
+    public void setOrientation(Orientation orientation, boolean force) {
+        super.setOrientation(orientation, force);
         playerSprites.setOrientation(getOrientation());
+    }
+
+    @Override
+    public Orientation getOrientation() {
+        return super.getOrientation();
     }
 
     @Override
@@ -174,7 +183,7 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         @Override
         public void interactWith(Door door) {
             // fait en sorte que la porte soit passée par l'acteur
-            setIsPassingDoor(door);
+            setDestination(door);
         }
 
         @Override

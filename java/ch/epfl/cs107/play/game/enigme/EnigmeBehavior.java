@@ -3,9 +3,14 @@ package ch.epfl.cs107.play.game.enigme;
 import ch.epfl.cs107.play.game.areagame.AreaBehavior;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.enigme.actor.EnigmePlayer;
+import ch.epfl.cs107.play.game.enigme.actor.Portal;
+import ch.epfl.cs107.play.game.enigme.actor.Pushable;
 import ch.epfl.cs107.play.game.enigme.handler.EnigmeInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
+
+import java.util.Collections;
 
 public class EnigmeBehavior extends AreaBehavior {
 
@@ -63,7 +68,11 @@ public class EnigmeBehavior extends AreaBehavior {
         protected boolean canEnter(Interactable entity) {
         	if (entity.takeCellSpace() || entity.needEmptySpace()) {
         		for (Interactable interactable : interactables) {
-					if (interactable.takeCellSpace()) {
+                    if (entity instanceof EnigmePlayer && interactable instanceof Pushable) {
+                        if (!((Pushable)interactable).isBeginPushed() &&
+                                !((Pushable)interactable).push(((EnigmePlayer)entity).getOrientation()))
+                            return false;
+                    } else if (interactable.takeCellSpace()) {
 						return false;
 					}
 				}
@@ -84,6 +93,20 @@ public class EnigmeBehavior extends AreaBehavior {
 
         @Override
         protected boolean canLeave(Interactable entity) {
+            // Player hasn't been teleported yet
+            if (entity instanceof EnigmePlayer && ((EnigmePlayer)entity).getDestination() == null &&
+                    interactables.stream().anyMatch(x -> x instanceof Portal))
+                return false;
+
+            // Don't let the player go through a Pushable when pushing it
+            if (entity.takeCellSpace()) {
+                for (Interactable interactable : interactables) {
+                    if (entity instanceof EnigmePlayer && interactable instanceof Pushable &&
+                            ((Pushable) interactable).isBeginPushed()) {
+                        return false;
+                    }
+                }
+            }
             return true;
         }
 

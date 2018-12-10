@@ -5,14 +5,17 @@ import ch.epfl.cs107.play.game.areagame.actor.*;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.game.enigme.handler.EnigmeInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.Collections;
 import java.util.List;
 
-public class PushableRock extends MovableAreaEntity implements Pushable, Interactor {
+public class PushableRock extends MovableAreaEntity implements Pushable, Interactor, Teleportable {
     private Sprite rockSprite;
     private PushableRockHandler handler;
+
+    private Destination destination;
 
     // Animation duration in frame number
     private final static int ANIMATION_DURATION = 8;
@@ -20,15 +23,24 @@ public class PushableRock extends MovableAreaEntity implements Pushable, Interac
     public PushableRock(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
 
-        this.rockSprite = new Sprite("rock.3", 1, 1, this);
-
+        float depthCorrection = 50;
+        this.rockSprite = new Sprite("rock.3", 1, 1, this, null, Vector.ZERO, 1, depthCorrection);
         handler = new PushableRockHandler();
     }
 
     @Override
-    public void push(Orientation direction) {
-        setOrientation(direction);
-        move(ANIMATION_DURATION);
+    public boolean push(Orientation direction) {
+        if (destination == null) {
+            setOrientation(direction);
+            return move(ANIMATION_DURATION);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isBeginPushed() {
+        return super.isMoving() && !getTargetMainCellCoordinates().equals(getCurrentMainCellCoordinates());
     }
 
     @Override
@@ -63,7 +75,7 @@ public class PushableRock extends MovableAreaEntity implements Pushable, Interac
 
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-        return Collections.emptyList();
+        return Collections.singletonList(getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
     }
 
     @Override
@@ -81,23 +93,51 @@ public class PushableRock extends MovableAreaEntity implements Pushable, Interac
         other.acceptInteraction(handler);
     }
 
+    @Override
+    public Destination getDestination() {
+        return destination;
+    }
+
+    @Override
+    public void setDestination(Destination destination) {
+        this.destination = destination;
+    }
+
+    @Override
+    public void setPosition(DiscreteCoordinates coordinates) {
+        resetMotion();
+        getOwnerArea().leaveAreaCells(this, getCurrentCells());
+        super.setCurrentPosition(coordinates.toVector());
+        getOwnerArea().enterAreaCells(this, getCurrentCells());
+    }
+
+    @Override
+    public void beforeTeleport() {
+        resetMotion();
+    }
+
+    @Override
+    public Orientation getOrientation() {
+        return super.getOrientation();
+    }
+
     /**
      * Specific interaction handler for an EnigmePlayer
      */
     private class PushableRockHandler implements EnigmeInteractionVisitor {
-        /*@Override
+        @Override
         public void interactWith(Door door) {
-            setIsPassingDoor(door);
-        }*/
+            setDestination(door);
+        }
 
         @Override
         public void interactWith(Switchable switchable) {
             switchable.switchState();
         }
 
-        /*@Override
+        @Override
         public void interactWith(Portal portal){
-            portal.teleport(EnigmePlayer.this);
-        }*/
+            portal.teleport(PushableRock.this);
+        }
     }
 }

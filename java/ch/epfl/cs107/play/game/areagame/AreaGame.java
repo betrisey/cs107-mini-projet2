@@ -19,7 +19,7 @@ abstract public class AreaGame implements Game {
     private Window window;
     private FileSystem fileSystem;
     /// A map containing all the Area of the Game
-    private Map<String, Area> areas;
+    protected Map<String, Area> areas;
 
     /// The current area the game is in
     private Area currentArea;
