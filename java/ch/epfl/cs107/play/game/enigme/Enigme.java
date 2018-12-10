@@ -106,6 +106,7 @@ public class Enigme extends AreaGame {
                         teleportable.setOrientation(destination.getDestinationOrientation(), true);
                 }
                 teleportable.setDestination(null);
+                teleportable.afterTeleport();
             }
         }
     }

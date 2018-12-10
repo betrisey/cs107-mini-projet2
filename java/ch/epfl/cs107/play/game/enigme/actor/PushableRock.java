@@ -31,7 +31,7 @@ public class PushableRock extends MovableAreaEntity implements Pushable, Interac
     @Override
     public boolean push(Orientation direction) {
         if (destination == null) {
-            setOrientation(direction);
+            setOrientation(direction, true);
             return move(ANIMATION_DURATION);
         } else {
             return false;
@@ -109,11 +109,6 @@ public class PushableRock extends MovableAreaEntity implements Pushable, Interac
         getOwnerArea().leaveAreaCells(this, getCurrentCells());
         super.setCurrentPosition(coordinates.toVector());
         getOwnerArea().enterAreaCells(this, getCurrentCells());
-    }
-
-    @Override
-    public void beforeTeleport() {
-        resetMotion();
     }
 
     @Override

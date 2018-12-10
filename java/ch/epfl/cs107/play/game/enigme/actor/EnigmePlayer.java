@@ -20,6 +20,8 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor, Telep
     private Portal orangePortal, bluePortal;
     private boolean placeingOrange, placingBlue;
 
+    private float freezeAfterTeleport;
+
     private final EnigmePlayerHandler handler;
 
     // Animation duration in frame number
@@ -71,11 +73,6 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor, Telep
     }
 
     @Override
-    public void beforeTeleport() {
-        resetMotion();
-    }
-
-    @Override
     public void draw(Canvas canvas) {
         playerSprites.draw(canvas);
     }
@@ -101,17 +98,28 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor, Telep
     }
 
     @Override
+    public void afterTeleport() {
+        resetMotion();
+        freezeAfterTeleport = 0.5f;
+    }
+
+    @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        for (Orientation orientation : Orientation.values()) {
-            boolean keyDown = getOwnerArea().getKeyboard().get(orientation.getKeyCode()).isDown();
-            if (keyDown) {
-                if (getOrientation() == orientation) {
-                    move(ANIMATION_DURATION);
-                }
-                else {
-                    setOrientation(orientation);
+        if (freezeAfterTeleport > 0) {
+            freezeAfterTeleport -= deltaTime;
+        } else {
+            freezeAfterTeleport = 0;
+            for (Orientation orientation : Orientation.values()) {
+                boolean keyDown = getOwnerArea().getKeyboard().get(orientation.getKeyCode()).isDown();
+                if (keyDown) {
+                    if (getOrientation() == orientation) {
+                        move(ANIMATION_DURATION);
+                    }
+                    else {
+                        setOrientation(orientation);
+                    }
                 }
             }
         }

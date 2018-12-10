@@ -12,5 +12,5 @@ public interface Teleportable extends Interactable, Actor {
     void setPosition(DiscreteCoordinates coordinates);
     Orientation getOrientation();
     void setOwnerArea(Area ownerArea);
-    void beforeTeleport();
+    default void afterTeleport() {}
 }
