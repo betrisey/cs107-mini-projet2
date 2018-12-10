@@ -95,7 +95,7 @@ public class EnigmeBehavior extends AreaBehavior {
         protected boolean canLeave(Interactable entity) {
             // Player hasn't been teleported yet
             if (entity instanceof EnigmePlayer && ((EnigmePlayer)entity).getDestination() == null &&
-                    interactables.stream().anyMatch(x -> x instanceof Portal))
+                    interactables.stream().anyMatch(x -> x instanceof Portal && ((Portal) x).linkedPortalPlaced()))
                 return false;
 
             // Don't let the player go through a Pushable when pushing it

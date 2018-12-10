@@ -18,6 +18,8 @@ public class Portal extends AreaEntity {
     private Portal linkedPortal;
     private Sprite sprite;
     private boolean isPlaced;
+    private boolean showLinkError;
+    private Dialog linkErrorDialog;
 
     /**
      * Portal factory that creates two portals linked together
@@ -48,6 +50,7 @@ public class Portal extends AreaEntity {
     @Override
     public void draw(Canvas canvas) {
         if (isPlaced) sprite.draw(canvas);
+        if (showLinkError) linkErrorDialog.draw(canvas);
     }
 
     @Override
@@ -88,11 +91,9 @@ public class Portal extends AreaEntity {
      */
     public void teleport(Teleportable teleportable) {
         if (linkedPortal.isPlaced) {
-            //teleportable.beforeTeleport();
             teleportable.setDestination(linkedPortal.getDestinationCoordinates(teleportable));
         } else {
-            System.out.println("The linked portal hasn't been placed yet");
-            // TODO use dialog
+            showLinkError = true;
         }
     }
 
@@ -122,6 +123,12 @@ public class Portal extends AreaEntity {
 
             isPlaced = true;
 
+            linkErrorDialog = new Dialog("The linked portal hasn't been placed yet", "dialog.3", area);
+
+            if (linkedPortal.showLinkError) {
+                linkedPortal.showLinkError = false;
+            }
+
             return true;
         }
     }
@@ -146,6 +153,10 @@ public class Portal extends AreaEntity {
 
         // If no available cell is found, return the portal cell and the player will be teleported back
         return new PortalDestination(getOwnerArea().getTitle(), getCurrentMainCellCoordinates(), null);
+    }
+
+    public boolean linkedPortalPlaced() {
+        return linkedPortal.isPlaced;
     }
 
     /**

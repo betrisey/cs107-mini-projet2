@@ -3,6 +3,7 @@ package ch.epfl.cs107.play.game.enigme.area;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.enigme.actor.*;
 import ch.epfl.cs107.play.io.FileSystem;
+import ch.epfl.cs107.play.io.XMLTexts;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Window;
@@ -37,6 +38,10 @@ public class LevelSelector extends EnigmeArea {
 
         PushableRock rock = new PushableRock(this, Orientation.DOWN, new DiscreteCoordinates(4, 4));
         registerActor(rock);
+
+        String[] texts = new String[]{XMLTexts.getText("riddle_1"), XMLTexts.getText("riddle_2")};
+        TalkingActor talkingActor = new TalkingActor(this, Orientation.DOWN, new DiscreteCoordinates(7, 5), "girl.1", texts);
+        registerActor(talkingActor);
 
         return true;
     }

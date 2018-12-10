@@ -107,14 +107,12 @@ public abstract class AreaBehavior
 
         private void enter(Interactable entity) {
             if (canEnter(entity)) {
-                System.out.println("enter " + entity + " " + coordinates);
                 interactables.add(entity);
             }
         }
 
         private void leave(Interactable entity) {
             if (canLeave(entity)) {
-                System.out.println("leave " + entity + " " + coordinates);
                 interactables.remove(entity);
             }
         }

@@ -205,5 +205,10 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor, Telep
         public void interactWith(Pushable pushable){
             pushable.push(getOrientation());
         }
+
+        @Override
+        public void interactWith(TalkingActor talkingActor) {
+            talkingActor.talk(getOrientation());
+        }
     }
 }

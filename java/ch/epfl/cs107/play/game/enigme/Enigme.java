@@ -9,6 +9,7 @@ import ch.epfl.cs107.play.game.enigme.actor.Destination;
 import ch.epfl.cs107.play.game.enigme.area.*;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 
@@ -20,8 +21,13 @@ public class Enigme extends AreaGame {
 
     public static final float CAMERA_SCALE_FACTOR = 22;
 
+    private Window window;
+    private boolean paused;
+    private String areaToResume;
+
     /// The player is a concept of RPG games
     private EnigmePlayer player;
+
 
     /// Enigme implements Playable
 
@@ -34,8 +40,12 @@ public class Enigme extends AreaGame {
     public boolean begin(Window window, FileSystem fileSystem) {
         super.begin(window, fileSystem);
 
-        EnigmeArea[] areas = new EnigmeArea[]{new LevelSelector(), new Level1(), new Level2(), new Level3()};
-        for (EnigmeArea area : areas) {
+        this.window = window;
+        paused = false;
+        areaToResume = null;
+
+        Area[] areas = new Area[]{new LevelSelector(), new Level1(), new Level2(), new Level3(), new Pause()};
+        for (Area area : areas) {
             addArea(area);
         }
 
@@ -49,6 +59,18 @@ public class Enigme extends AreaGame {
 
     @Override
     public void update(float deltaTime) {
+        if (window.getKeyboard().get(Keyboard.P).isPressed()) {
+            paused = !paused;
+
+            if (paused) {
+                areaToResume = getCurrentArea().getTitle();
+                setCurrentArea("Pause", false);
+            } else {
+                setCurrentArea(areaToResume, false);
+                areaToResume = null;
+            }
+        }
+
         super.update(deltaTime);
 
         for (Teleportable teleportable : getCurrentArea().getTeleportables()) {
@@ -67,7 +89,7 @@ public class Enigme extends AreaGame {
                         } else {
                             getCurrentArea().unregisterActor(teleportable);
 
-                            // To make sure the destination area has been initialized
+                            // To make sure the destination area has been initialized we switch to it
                             String startAreaTitle = getCurrentArea().getTitle();
                             setCurrentArea(destination.getDestinationArea(), false); // forceBegin=false to resume
 
@@ -75,6 +97,7 @@ public class Enigme extends AreaGame {
                             destinationArea.registerActor(teleportable);
                             teleportable.setOwnerArea(destinationArea);
 
+                            // That we switch it back
                             setCurrentArea(startAreaTitle, false);
                         }
                     }
