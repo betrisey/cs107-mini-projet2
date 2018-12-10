@@ -38,8 +38,8 @@ public class TalkingActor extends AreaEntity implements Interactable {
         this.texts = texts;
         this.textIndex = 0;
 
-        characterSprite = new AnimatedSprite(characterSpriteName, 1, 1, 16, 21,
-                1, 0.3f, true, this, Vector.ZERO, 90);
+        characterSprite = new AnimatedSprite(characterSpriteName, 0.7619f, 1, 16, 21,
+                1, 0.3f, true, this, new Vector(0.12f, 0), 90);
         dialog = new Dialog(texts[textIndex], "dialog.1", area);
     }
 

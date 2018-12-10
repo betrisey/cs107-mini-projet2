@@ -30,8 +30,8 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor, Telep
 
         // depth correction to make sure the player is always displayed on top
         float depthCorrection = 100;
-        playerSprites = new AnimatedSprite("max.new.1", 1, 1, 16, 21,
-                4, 0.3f, true, this, Vector.ZERO, depthCorrection);
+        playerSprites = new AnimatedSprite("max.new.1", 0.7619f, 1, 16, 21,
+                4, 0.3f, true, this, new Vector(0.12f, 0), depthCorrection);
 
         Portal[] portals = Portal.createPortalPair();
         orangePortal = portals[0];
