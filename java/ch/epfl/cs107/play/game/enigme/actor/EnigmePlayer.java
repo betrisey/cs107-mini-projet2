@@ -191,5 +191,10 @@ public class EnigmePlayer extends MovableAreaEntity implements Interactor {
         public void interactWith(Portal portal){
             portal.teleport(EnigmePlayer.this);
         }
+
+        @Override
+        public void interactWith(Pushable pushable){
+            pushable.push(getOrientation());
+        }
     }
 }

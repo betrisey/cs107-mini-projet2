@@ -35,6 +35,9 @@ public class LevelSelector extends EnigmeArea {
             registerActor(door);
         }
 
+        PushableRock rock = new PushableRock(this, Orientation.DOWN, new DiscreteCoordinates(4, 4));
+        registerActor(rock);
+
         return true;
     }
 }

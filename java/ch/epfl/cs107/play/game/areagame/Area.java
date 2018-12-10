@@ -88,7 +88,7 @@ public abstract class Area implements Playable {
      * @param a (Actor): the actor to register, not null
      * @return (boolean): true if the actor is correctly registered
      */
-    public final boolean registerActor(Actor a){
+    public final boolean registerActor(Actor a) {
         return registeredActors.add(a);
     }
 
@@ -97,7 +97,7 @@ public abstract class Area implements Playable {
      * @param a (Actor): the actor to unregister, not null
      * @return (boolean): true if the actor is correctly unregistered
      */
-    public final boolean unregisterActor(Actor a){
+    public final boolean unregisterActor(Actor a) {
         return unregisteredActors.add(a);
     }
 
