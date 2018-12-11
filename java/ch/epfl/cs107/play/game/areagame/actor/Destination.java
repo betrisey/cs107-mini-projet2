@@ -1,4 +1,4 @@
-package ch.epfl.cs107.play.game.enigme.actor;
+package ch.epfl.cs107.play.game.areagame.actor;
 
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;

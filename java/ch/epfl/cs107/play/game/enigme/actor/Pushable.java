@@ -4,5 +4,5 @@ import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 
 public interface Pushable {
     boolean push(Orientation direction);
-    boolean isBeginPushed();
+    boolean isBeingPushed();
 }

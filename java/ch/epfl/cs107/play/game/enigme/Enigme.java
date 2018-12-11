@@ -5,7 +5,7 @@ import ch.epfl.cs107.play.game.areagame.AreaGame;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.actor.Teleportable;
 import ch.epfl.cs107.play.game.enigme.actor.EnigmePlayer;
-import ch.epfl.cs107.play.game.enigme.actor.Destination;
+import ch.epfl.cs107.play.game.areagame.actor.Destination;
 import ch.epfl.cs107.play.game.enigme.area.*;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;

@@ -39,7 +39,7 @@ public class PushableRock extends MovableAreaEntity implements Pushable, Interac
     }
 
     @Override
-    public boolean isBeginPushed() {
+    public boolean isBeingPushed() {
         return super.isMoving() && !getTargetMainCellCoordinates().equals(getCurrentMainCellCoordinates());
     }
 

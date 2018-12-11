@@ -10,8 +10,6 @@ import ch.epfl.cs107.play.game.enigme.handler.EnigmeInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Window;
 
-import java.util.Collections;
-
 public class EnigmeBehavior extends AreaBehavior {
 
     /**
@@ -69,7 +67,7 @@ public class EnigmeBehavior extends AreaBehavior {
         	if (entity.takeCellSpace() || entity.needEmptySpace()) {
         		for (Interactable interactable : interactables) {
                     if (entity instanceof EnigmePlayer && interactable instanceof Pushable) {
-                        if (!((Pushable)interactable).isBeginPushed() &&
+                        if (!((Pushable)interactable).isBeingPushed() &&
                                 !((Pushable)interactable).push(((EnigmePlayer)entity).getOrientation()))
                             return false;
                     } else if (interactable.takeCellSpace()) {
@@ -102,7 +100,7 @@ public class EnigmeBehavior extends AreaBehavior {
             if (entity.takeCellSpace()) {
                 for (Interactable interactable : interactables) {
                     if (entity instanceof EnigmePlayer && interactable instanceof Pushable &&
-                            ((Pushable) interactable).isBeginPushed()) {
+                            ((Pushable) interactable).isBeingPushed()) {
                         return false;
                     }
                 }
