@@ -68,10 +68,10 @@ public class EnigmeBehavior extends AreaBehavior {
         		for (Interactable interactable : interactables) {
         		    // If the player tries to walk on a Pushable and it's not already being pushed, we try to push it
                     // and only block the player if the push didn't succeeded (e.g. the rock cannot move because of a wall)
-                    if (entity instanceof EnigmePlayer && interactable instanceof Pushable &&
-                            !((Pushable)interactable).isBeingPushed() &&
-                            !((Pushable)interactable).push(((EnigmePlayer)entity).getOrientation())) {
-                        return false;
+                    if (entity instanceof EnigmePlayer && interactable instanceof Pushable) {
+                        if (!((Pushable)interactable).isBeingPushed() &&
+                                !((Pushable)interactable).push(((EnigmePlayer)entity).getOrientation()))
+                            return false;
                     } else if (interactable.takeCellSpace()) {
 						return false;
 					}
