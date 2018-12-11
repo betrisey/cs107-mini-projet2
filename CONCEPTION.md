@@ -48,6 +48,8 @@ Il suffit d'appeler la méthode draw pour dessiner la sprite appropriée selon d
 
 
 ## Portal
+_estimation reçue: 5-6pts.
+Après cette estimation, nous avons encore ajouté la possibilité de faire traverser les Portals aux PushableRocks._
 
 Cette extension est inspirée du jeu Portal, le joueur a deux portails qu'il peut poser où il le souhaite
 (dans la même Area ou une différente).
@@ -68,10 +70,58 @@ Il y a donc une méthode qui crée deux portails associés: `createPortalPair`
 
 Si on essaie de rentrer dans un portail alors que le deuxième n'est pas passé, une erreur s'affiche un Dialog (extension décrite plus loin).
 
-Spécificité pour le déplacement d'un portail :  
+#### Spécificité pour le placement et déplacement d'un portail
+Pour le déplacer, il faut le retirer de l'ancienne cellule puis l'ajouter sur la nouvelle.
+Pour éviter tout problème, ce déplacement se fait en 2 updates. Lors du premier appel à `place` on unregister d'acteur et retourne false.
+Le player recevant false sait qu'il devra rappeler la méthode au prochain update. La deuxième fois, la méthode appelera registerActor.
+
+#### getDestinationCoordinates(Teleportable)
+Lorsque le portail est placé, il a une orientation (face au player qui l'a posé) quand on passe, on veut que l'actor resorte
+de ce côté du portail. Cette méthode donne donc la cellule sur laquelle ressport l'acteur.
+
+Dans le cas où cette cellule est déjà occupée, on vérifie les autres cellules adjacentes et si aucune n'est trouvée,
+on le laisse sur le portail d'arrivée et il sera retéléporté dans l'autre sens.
+
+#### teleport(Teleportable)
+On assigne simplement la destination au Teleportable et la méthode update d'Enigme va se charger du déplacement.
+
+#### Enigme.update()
+Pour tous les Teleportables de l'area :
+- Si c'est un EnigmePlayer, on utilise ses méthodes spécifiques pour le faire quitter et entrer dans la nouvelle aire et
+on défini l'Area de destination comme Area courante.
+- Sinon on unregister l'acteur de l'ancienne Area, passe à la nouvelle Area (pour garantir que tout soit mis à jour correctement),
+puis on register l'acteur et repasse à l'ancienne Area où le joueur se trouve.
+
 
 ## PushableRock (4pts)
+Classes / interfaces :
+- `ch.epfl.cs107.play.game.enigme.actor.PushableRock`
+- `ch.epfl.cs107.play.game.enigme.actor.Pushable`
+
+PushableRock est une `MovableAreaEntity` qui est :
+- `Interactable` pour que le joueur puisse interagir à distance pour pousser le rocher
+- `Interactor` pour qu'il puisse activer des PressurePlate / PressureSwitch
+- `Teleportable` pour qu'il puisse passer à travers les portes et portails.
+
+Une méthode a été ajoutée dans `EnigmePlayerHandler` qui va simplement appeler la méthode push.
+Ainsi lorsqu'on appuie sur la touche L pour interagire, le rocher va être poussé.
+
+Pour une interaction plus naturelle, on aimerait pouvoir marcher avec le personnage contre le rocher et qu'il se déplace tout seul.
+On peut faire ça en modifiant la méthode canEnter pour pousser le rocker qui se trouve dans la cellule que le joueur veur entrer.
+
+Avec ce qui a été fait dans l'extension Portal, il est possible de leur faire traverser des Portals et Doors. 
 
 ## Dialog (4pts)
+Classe :
+- `ch.epfl.cs107.play.game.enigme.actor.TalkingActor`
+
+Acteur avant une AnimatedSprite pour être orientable, ainsi il se tourne vers le player qui interagit avec.
+Lorsque le player interagit à distance (touche L), un dialog s'affiche. A la prochaine interaction, le texte suivant s'affiche
+et se ferme quand il n'y a plus de texte. 
 
 ## Pause (2pts)
+Classe :
+- `ch.epfl.cs107.play.game.enigme.area.Pause`
+
+Dans la méthode update de Enigme, on vérifie si la touche P est appuyée, si c'est le cas, on passe à l'Area Pause.
+En appuyant une deuxième fois sur P, on revient à l'ancienne Area.

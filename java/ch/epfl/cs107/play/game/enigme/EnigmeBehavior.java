@@ -66,10 +66,12 @@ public class EnigmeBehavior extends AreaBehavior {
         protected boolean canEnter(Interactable entity) {
         	if (entity.takeCellSpace() || entity.needEmptySpace()) {
         		for (Interactable interactable : interactables) {
-                    if (entity instanceof EnigmePlayer && interactable instanceof Pushable) {
-                        if (!((Pushable)interactable).isBeingPushed() &&
-                                !((Pushable)interactable).push(((EnigmePlayer)entity).getOrientation()))
-                            return false;
+        		    // If the player tries to walk on a Pushable and it's not already being pushed, we try to push it
+                    // and only block the player if the push didn't succeeded (e.g. the rock cannot move because of a wall)
+                    if (entity instanceof EnigmePlayer && interactable instanceof Pushable &&
+                            !((Pushable)interactable).isBeingPushed() &&
+                            !((Pushable)interactable).push(((EnigmePlayer)entity).getOrientation())) {
+                        return false;
                     } else if (interactable.takeCellSpace()) {
 						return false;
 					}
@@ -91,20 +93,10 @@ public class EnigmeBehavior extends AreaBehavior {
 
         @Override
         protected boolean canLeave(Interactable entity) {
-            // Player hasn't been teleported yet
-            if (entity instanceof EnigmePlayer && ((EnigmePlayer)entity).getDestination() == null &&
-                    interactables.stream().anyMatch(x -> x instanceof Portal && ((Portal) x).linkedPortalPlaced()))
+            // Player hasn't been teleported yet so we don't want it to leave the cell before the teleportaion triggers
+            if (entity instanceof EnigmePlayer && ((EnigmePlayer)entity).getDestination() == null && // the player doesn't have a destination yet
+                    interactables.stream().anyMatch(x -> x instanceof Portal && ((Portal) x).linkedPortalPlaced())) // there is a portal which is linked on the cell
                 return false;
-
-            // Don't let the player go through a Pushable when pushing it
-            if (entity.takeCellSpace()) {
-                for (Interactable interactable : interactables) {
-                    if (entity instanceof EnigmePlayer && interactable instanceof Pushable &&
-                            ((Pushable) interactable).isBeingPushed()) {
-                        return false;
-                    }
-                }
-            }
             return true;
         }
 
