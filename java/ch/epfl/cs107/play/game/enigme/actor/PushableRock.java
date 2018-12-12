@@ -117,7 +117,7 @@ public class PushableRock extends MovableAreaEntity implements Pushable, Interac
     }
 
     /**
-     * Specific interaction handler for an EnigmePlayer
+     * Specific interaction handler for an PushableRock
      */
     private class PushableRockHandler implements EnigmeInteractionVisitor {
         @Override
