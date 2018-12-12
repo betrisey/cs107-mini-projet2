@@ -6,6 +6,7 @@ import ch.epfl.cs107.play.game.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.game.areagame.actor.Interactable;
 import ch.epfl.cs107.play.game.areagame.actor.Orientation;
 import ch.epfl.cs107.play.game.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.game.enigme.area.Level4;
 import ch.epfl.cs107.play.game.enigme.handler.EnigmeInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Vector;
@@ -31,7 +32,7 @@ public class TalkingActor extends AreaEntity implements Interactable {
      * @param characterSpriteName (String): Name of a sprite for a character, must have 4 orientations. Not null
      * @param texts (String[]): Texts to display. Not null, not empty
      */
-    public TalkingActor(Area area, Orientation orientation, DiscreteCoordinates position, String characterSpriteName, String[] texts) {
+    public TalkingActor(Area area, Orientation orientation, DiscreteCoordinates position, String characterSpriteName, String... texts) {
         super(area, orientation, position);
 
         showDialog = false;
@@ -43,7 +44,7 @@ public class TalkingActor extends AreaEntity implements Interactable {
         dialog = new Dialog(texts[textIndex], "dialog.1", area);
     }
 
-    public void talk(Orientation orientation) {
+	public void talk(Orientation orientation) {
         setOrientation(orientation.opposite());
 
         if (!showDialog) {

@@ -113,6 +113,6 @@ public class Enigme extends AreaGame {
 
     @Override
     public int getFrameRate() {
-        return 24;
+        return 30;
     }
 }

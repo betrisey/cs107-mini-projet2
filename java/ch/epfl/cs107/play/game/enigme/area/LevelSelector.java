@@ -35,12 +35,8 @@ public class LevelSelector extends EnigmeArea {
 
             registerActor(door);
         }
-
-        PushableRock rock = new PushableRock(this, Orientation.DOWN, new DiscreteCoordinates(4, 4));
-        registerActor(rock);
-
-        String[] texts = new String[]{XMLTexts.getText("riddle_1"), XMLTexts.getText("riddle_2")};
-        TalkingActor talkingActor = new TalkingActor(this, Orientation.DOWN, new DiscreteCoordinates(7, 5), "girl.1", texts);
+        
+        TalkingActor talkingActor = new TalkingActor(this, Orientation.DOWN, new DiscreteCoordinates(7, 5), "girl.1", XMLTexts.getText("welcome_text"));
         registerActor(talkingActor);
 
         return true;

@@ -1,15 +1,8 @@
 <strings id="icmon_fr">
-    <string name="game_name">Jeu d'énigme</string>
-    <string name="inspect_eclatrock">Cette pierre semble pouvoir se briser. </string>
-    <string name="use_eclatrock">Allez ! On utilise EclatRock !</string>
-    <string name="use_forcerock">Allez ! On utilise Force !</string>
-    <string name="missing_object">Mais il semble manquer un objet... </string>
-    <string name="inspect_forcerock">Cette pierre semble pouvoir se déplacer. </string>
-    <string name="you_get">Vous avez obtenu : </string>
-    <string name="inspect_signalrock">Cette pierre semble reliée à un signal, peut-être qu'en trouvant comment l'activer on peut la passer</string>
-    <string name="riddle_1">Il parait que si tu as compris le sens de la vie, alors tu pourras passer</string>
-    <string name="riddle_2">On dit qu'il faut savoir ce que l'on cherche pour pouvoir passer...le sais-tu ? Parce que moi pas vraiment...</string>
-    <string name="mew_dialog">Mew...mew, mew mew !</string>
-    <string name=""></string>
-    <string name=""></string>
+    <string name="portal_hint">Use portals in order not to be blocked in the maze. You can place the first portal by pressing the J key and the second with the K key.</string>
+    <string name="keys_hint">Go search for 3 keys in the maze</string>
+    <string name="rock_hint">Find the rock in the maze and bring it here. Go for her Hero!</string>
+    <string name="princess_thanks">Thank you for rescuing me!</string>
+    <string name="maze_quote">If you understand the meaning of rolling into the maze, you can marry the princess!</string>
+    <string name="welcome_text">Welcome Hero! Choose your level</string>
 </strings>
