@@ -44,7 +44,7 @@ public class Enigme extends AreaGame {
         paused = false;
         areaToResume = null;
 
-        Area[] areas = new Area[]{new LevelSelector(), new Level1(), new Level2(), new Level3(), new Pause()};
+        Area[] areas = new Area[]{new LevelSelector(), new Level1(), new Level2(), new Level3(), new Level4(), new Pause()};
         for (Area area : areas) {
             addArea(area);
         }
