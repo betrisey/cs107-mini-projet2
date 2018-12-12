@@ -125,3 +125,5 @@ Classe :
 
 Dans la méthode update de Enigme, on vérifie si la touche P est appuyée, si c'est le cas, on passe à l'Area Pause.
 En appuyant une deuxième fois sur P, on revient à l'ancienne Area.
+
+Les méthodes suspend et resume sont appelées automatiquement dans setCurrentArea.
