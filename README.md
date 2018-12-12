@@ -16,7 +16,8 @@ La boîte de dialogue se ferme à la fin du message en appuyant encore sur `L`.
 
 - En marchant contre un rocher, on arrive à le pousser
 - Il est aussi possible d'interagir à distance avec le rocher pour le pousser (touche `L`)
-
+- **Attention à ne pas bloquer le rocher contre le mur car on peut uniquement le pousser mais pas le tirer.**
+(Indice: Utiliser les portails pour faire traverser le labyrinthe au rocher)
 
 - Appuyer sur la touche `L` pour interagir avec les objets : torches, switches, pommes, etc...
 - Appuyer sur la touche `J` pour créer un portail orange et `K` pour un portail bleu

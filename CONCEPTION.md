@@ -111,7 +111,7 @@ On peut faire ça en modifiant la méthode canEnter pour pousser le rocker qui s
 
 Avec ce qui a été fait dans l'extension Portal, il est possible de leur faire traverser des Portals et Doors. 
 
-## Dialog (4pts)
+## Dialog (3-5pts)
 Classe :
 - `ch.epfl.cs107.play.game.enigme.actor.TalkingActor`
 
