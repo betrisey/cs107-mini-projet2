@@ -18,7 +18,7 @@ Elle retourne un objet implémentant l'interface `Destination` ou `null` si aucu
 Les classes pouvant être déplacées implémentent l'interface `Teleportable`.
 
 La méthode update d'Enigme vérifie donc maintenant si les objets `Teleportable` (et plus uniquement le player) souhaitent un déplacement et les déplacent.
-La liste des objets teleportables est stockée en propriété de la classe `Area`.
+La liste des objets téléportables est stockée en propriété de la classe `Area`.
 
 ## Depth correction
 Certaines fois, le joueur était affiché sous les PressureSwitch, pour corriger ça, à la création du Sprite du joueur,
@@ -53,7 +53,7 @@ Après cette estimation, nous avons encore ajouté la possibilité de faire trav
 
 Cette extension est inspirée du jeu Portal, le joueur a deux portails qu'il peut poser où il le souhaite
 (dans la même Area ou une différente).
-- Il pourra ensuite rentrer dans un portail (interaction de contact) et il resortira de l'autre.
+- Il pourra ensuite rentrer dans un portail (interaction de contact) et il ressortira de l'autre.
 - Un portail peut être replacé et l'ancien disparait, il communiquera toujours avec son portail associé.
 - Les roches poussables (extension décrite plus loin) peuvent aussi traverser ces portails. 
 
@@ -73,10 +73,10 @@ Si on essaie de rentrer dans un portail alors que le deuxième n'est pas passé,
 #### Spécificité pour le placement et déplacement d'un portail
 Pour le déplacer, il faut le retirer de l'ancienne cellule puis l'ajouter sur la nouvelle.
 Pour éviter tout problème, ce déplacement se fait en 2 updates. Lors du premier appel à `place` on unregister d'acteur et retourne false.
-Le player recevant false sait qu'il devra rappeler la méthode au prochain update. La deuxième fois, la méthode appelera registerActor.
+Le player recevant false sait qu'il devra rappeller la méthode au prochain update. La deuxième fois, la méthode appelera registerActor.
 
 #### getDestinationCoordinates(Teleportable)
-Lorsque le portail est placé, il a une orientation (face au player qui l'a posé) quand on passe, on veut que l'actor resorte
+Lorsque le portail est placé, il a une orientation (face au player qui l'a posé) quand on passe, on veut que l'actor ressorte
 de ce côté du portail. Cette méthode donne donc la cellule sur laquelle ressport l'acteur.
 
 Dans le cas où cette cellule est déjà occupée, on vérifie les autres cellules adjacentes et si aucune n'est trouvée,
@@ -107,7 +107,7 @@ Une méthode a été ajoutée dans `EnigmePlayerHandler` qui va simplement appel
 Ainsi lorsqu'on appuie sur la touche L pour interagire, le rocher va être poussé.
 
 Pour une interaction plus naturelle, on aimerait pouvoir marcher avec le personnage contre le rocher et qu'il se déplace tout seul.
-On peut faire ça en modifiant la méthode canEnter pour pousser le rocker qui se trouve dans la cellule que le joueur veur entrer.
+On peut faire ça en modifiant la méthode canEnter pour pousser le rocker qui se trouve dans la cellule que le joueur veut entrer.
 
 Avec ce qui a été fait dans l'extension Portal, il est possible de leur faire traverser des Portals et Doors. 
 
